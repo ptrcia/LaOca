@@ -6,14 +6,23 @@ public class Dice : MonoBehaviour
 {
     #region
     int randomNumber;
-    public bool diceRolled;
+    public bool diceRolled= true;
+    public bool canRollDice;
 
-    public void OnMouseDown()
+    public int RollDice()
     {
-        //Debug.Log("Rolled: "+ diceRolled);
-        RollDice();
-        Debug.Log("Random generated number: " + randomNumber);
-        diceRolled = true;
+        randomNumber = Random.Range(1, 6);
+        return randomNumber;
+    }
+    private void OnMouseDown()
+    {
+        if (canRollDice)
+        {
+            //Debug.Log("Rolled: "+ diceRolled);
+            RollDice();
+            Debug.Log("Random generated number: " + randomNumber);
+            diceRolled = true;
+        }
 
     }
     private void OnMouseUp()
@@ -21,11 +30,15 @@ public class Dice : MonoBehaviour
         diceRolled = false;
     }
 
-
-    public int RollDice()
+    public void DisableRolling() 
     {
-        randomNumber = Random.Range(1, 6);
-        return randomNumber;
+        canRollDice = false;
+    }
+    public void EnableRolling()
+    {
+        canRollDice = true;
     }
     #endregion
+
+    
 }
