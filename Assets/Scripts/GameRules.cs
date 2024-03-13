@@ -4,146 +4,183 @@ using UnityEngine;
 
 public class GameRules : MonoBehaviour
 {
-    int playerCurrentCell;
+    [SerializeField] GameObject player;
+
     PlayerMovement playerMovement;
+    GameManager gameManager;
+    TurnManager turnManager;
 
-    int firstBridge = 6;
-    int secondBridge = 12;
 
-    int firstDice = 26;
-    int secondDice = 53;
+    int firstBridge = 5;
+    int secondBridge = 11;
 
-    int finalCell = 63;
+    int firstDice = 15;
+    int secondDice = 12;
+
+    int finalCell = 62;
 
     private void Awake()
     {
         playerMovement = GameObject.
             FindGameObjectWithTag("Player").
             GetComponent<PlayerMovement>();
-        playerCurrentCell = playerMovement.currentCell;
-
+        gameManager = GameObject.
+            FindGameObjectWithTag("GameManager").
+            GetComponent<GameManager>();
+        turnManager = GameObject.FindGameObjectWithTag("TurnManager").
+            GetComponent<TurnManager>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
     public void CheckSpecialCell()
     {
-        switch (playerCurrentCell)
+        Awake();
+
+        switch (playerMovement.currentCell)
         {
-            case 5 or 9 or 14 or 18 or 23 or 27 or 32 or 36 or
-           41 or 45 or 50 or 54 or 59:
+            case 4 or 8 or 13 or 17 or 22 or 26 or 31 or 35 or
+               40 or 44 or 49 or 53 or 58:
                 Debug.Log("Oca");
                 Oca();
                 break;
-            case 6 or 12:
+            case 5 or 11:
                 Debug.Log("Puente");
                 Puente();
                 break;
-            case 19:
-                Debug.Log("POsada");
+            case 18:
+                Debug.Log("Posada");
                 Posada();
                 break;
-            case 31:
-                Debug.Log("Pozo");
-                Pozo();
-                break;
-            case 42:
-                Debug.Log("Laberinto");
-                Laberinto();
-                break;
-            case 56:
-                Debug.Log("Carcel");
-                Cárcel();
-                break;
-            case 26 or 53:
-                Debug.Log("Dados");
-                Dados();
-                break;
-            case 58:
-                Debug.Log("Calavera");
-                Calavera();
-                break;
-            case 63:
-                Debug.Log("Final");
-                Final();
-                break;
-            case > 63:
-                Debug.Log("Jardín");
-                Jardin();
-                break;
-            default: break;
         }
-    }
-    void Oca()
-    {
-        if (playerCurrentCell != 59)
+        void Oca()
         {
-            playerCurrentCell = playerCurrentCell + 5;
-            //Repetir Turno /Volver a tirar el dado
-        }
-        else if (playerCurrentCell == 59)
-        {
-            //gameManager.Win();
+            if (playerMovement.currentCell != 59)
+            {
+                Debug.Log("curretnBoardCell" + playerMovement.currentCell);
+                //currentBoardCell = currentBoardCell + 3;
+                //player.transform.position = playerMovement.cells[currentBoardCell+3].position;
+                Debug.Log("+3  ->" + playerMovement.currentCell);
+                turnManager.ReRoll();
+            }
+            else if (playerMovement.currentCell == 59)
+            {
+                gameManager.Win();
+            }
+
 
         }
-    }
-    void Puente()
-    {
-        if (playerCurrentCell == firstBridge)
+        void Puente()
         {
-            playerCurrentCell = secondBridge;
+            Debug.Log("CHECKSPECIALCELL PUENTEEEEE");
+            if (playerMovement.currentCell == firstBridge)
+            {
+                playerMovement.currentCell = secondBridge;
+                player.transform.position = playerMovement.cells[playerMovement.currentCell].position;
+                turnManager.nextTurnPlayer = false;
+
+            }
+            else if (playerMovement.currentCell == secondBridge)
+            {
+                playerMovement.currentCell = firstBridge;
+                player.transform.position = playerMovement.cells[playerMovement.currentCell].position;
+                turnManager.nextTurnPlayer = false;
+
+            }
         }
-        else if (playerCurrentCell == secondBridge)
+        void Posada()
         {
-            playerCurrentCell = firstBridge;
+            //turnManager.SkipTurn();
+            //a la sioguiente ronda no juega
         }
-    }
-    void Posada()
-    {
-        //turno.SaltarTurno();
-    }
-    void Pozo()
-    {
+        void Pozo()
+        {
+            /*
+            while (player2.currentCell!=31 ||player3.currentCell ...)
+            {
+                //turno.SaltarTturno;
+            }
+            */
+        }
+        void Laberinto()
+        {
+            playerMovement.currentCell = 30;
+        }
+        void Cárcel()
+        {
+            /*
+             while(!player2.layerMovement.currentCell != 56 || ...)
+            {
+            turno.SaltarTurno();
+            }
+             * */
+        }
+        void Dados()
+        {
+            if (playerMovement.currentCell == firstDice)
+            {
+                playerMovement.currentCell = secondDice;
+                player.transform.position = playerMovement.cells[playerMovement.currentCell].position;
+
+            }
+            else if (playerMovement.currentCell == secondDice)
+            {
+                playerMovement.currentCell = firstDice;
+                player.transform.position = playerMovement.cells[playerMovement.currentCell].position;
+
+            }
+        }
+        void Calavera()
+        {
+            playerMovement.currentCell = 1;
+        }
+        void Final()
+        {
+            //gameManager.Win();
+        }
+        void Jardin()
+        {
+            playerMovement.currentCell = playerMovement.currentCell -
+                            (playerMovement.currentCell - finalCell);
+            player.transform.position = playerMovement.cells[playerMovement.currentCell].position;
+
+            CheckSpecialCell();
+        }
+
+
         /*
-        while (player2.currentCell!=31 ||player3.currentCell ...)
-        {
-            //turno.SaltarTturno;
-        }
-        */
-    }
-    void Laberinto()
-    {
-        playerCurrentCell = 30;
-    }
-    void Cárcel()
-    {
-        /*
-         while(!player2.currentPosition != 56 || ...)
-        {
-        turno.SaltarTurno();
-        }
-         * */
-    }
-    void Dados()
-    {
-        if (playerCurrentCell == firstDice)
-        {
-            playerCurrentCell = secondDice;
-        }
-        else if (playerCurrentCell == secondDice)
-        {
-            playerCurrentCell = firstDice;
-        }
-    }
-    void Calavera()
-    {
-        playerCurrentCell = 1;
-    }
-    void Final()
-    {
-        //gameManager.Win();
-    }
-    void Jardin()
-    {
-        playerCurrentCell = playerCurrentCell -
-                        (playerCurrentCell - finalCell);
-        CheckSpecialCell();
+                 switch (playerMovement.currentCell)
+            {
+     
+
+                case 31:
+                    Debug.Log("Pozo");
+                    Pozo();
+                    break;
+                case 42:
+                    Debug.Log("Laberinto");
+                    Laberinto();
+                    break;
+                case 56:
+                    Debug.Log("Carcel");
+                    Cárcel();
+                    break;
+                case 26 or 53:
+                    Debug.Log("Dados");
+                    Dados();
+                    break;
+                case 58:
+                    Debug.Log("Calavera");
+                    Calavera();
+                    break;
+                case 63:
+                    Debug.Log("Final");
+                    Final();
+                    break;
+                case > 63:
+                    Debug.Log("Jardín");
+                    Jardin();
+                    break;
+                default: break;
+            }
+         */
     }
 }

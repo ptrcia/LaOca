@@ -11,16 +11,15 @@ public class Dice : MonoBehaviour
 
     public int RollDice()
     {
-        randomNumber = Random.Range(1, 6);
+        //randomNumber = Random.Range(1, 6);
+        randomNumber =18 ;
         return randomNumber;
     }
     private void OnMouseDown()
     {
         if (canRollDice)
         {
-            //Debug.Log("Rolled: "+ diceRolled);
             RollDice();
-            Debug.Log("Random generated number: " + randomNumber);
             diceRolled = true;
         }
 

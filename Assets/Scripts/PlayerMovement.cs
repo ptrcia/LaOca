@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,10 +10,9 @@ public class PlayerMovement : MonoBehaviour
     GameManager gameManager;
     GameRules gameRules;
 
-    [SerializeField]
-    Transform[] cells;
-    [SerializeField]
-    public int currentCell = 1;
+    public Transform[] cells;
+    public int currentCell;
+
 
     public bool movementCompleted = true;
     public int diceValue = 0;
@@ -35,10 +35,11 @@ public class PlayerMovement : MonoBehaviour
   
     void Move()
         {
-            currentCell = currentCell + dice.RollDice();
+            int diceResult = dice.RollDice();
+            currentCell = currentCell + diceResult;
             transform.position = cells[currentCell].position;
             Debug.Log("CurrentCell-> " + currentCell);
-            //gameRules.CheckSpecialCell();
+            gameRules.CheckSpecialCell();
             movementCompleted = true;
             Debug.Log("movementCompleted set to true.");
         }
@@ -56,9 +57,12 @@ public class PlayerMovement : MonoBehaviour
             yield return null;
         }
         Debug.Log("CurrentCell: " + currentCell);
-        currentCell = currentCell + dice.RollDice();
+        int diceResult = dice.RollDice();
+        currentCell = currentCell + diceResult;   //////////////
+        Debug.Log("Dado:" + diceResult);
         transform.position = cells[currentCell].position;
         Debug.Log("CurrentCell tras movimiento-> " + currentCell);
+        //numberCell = currentCell + 1;
         gameRules.CheckSpecialCell();
         movementCompleted = true;
         dice.diceRolled = false; 

@@ -14,7 +14,7 @@ public class TurnManager : MonoBehaviour
     private int currentPlayerIndex = 0;
     GameObject currentPlayer;
 
-
+    public bool nextTurnPlayer;
     //private int whosTurn = 1;
 
     //Decidir cuantos jugadores y hacer un Invoke??????
@@ -53,6 +53,7 @@ public class TurnManager : MonoBehaviour
 
         while (currentPlayerIndex < players.Count)
         {
+            nextTurnPlayer = true;
             GameObject currentPlayer = players[currentPlayerIndex];
 
             Debug.Log("Turno del -> " + currentPlayer.name);
@@ -65,24 +66,23 @@ public class TurnManager : MonoBehaviour
             {
                 yield return null; // Esperar un frame
             }
+            if (nextTurnPlayer) { 
+                currentPlayerIndex++;
 
-            currentPlayerIndex++;
-
-            if (currentPlayerIndex >= players.Count)
-            {
-                currentPlayerIndex = 0;
-                Debug.Log("-----Nueva Ronda-----");
+                if (currentPlayerIndex >= players.Count)
+                {
+                    currentPlayerIndex = 0;
+                    Debug.Log("-----Nueva Ronda-----");
+                }
             }
         }
     }
 
     public void SkipTurn()
     {
-
     }
-    public void NextTurn()
+    public void ReRoll()
     {
-
     }
 
     void PlayerOrderAutomatic()
@@ -93,8 +93,10 @@ public class TurnManager : MonoBehaviour
             int diceA, diceB;
             do
             {
-                diceA = dice.RollDice();
-                diceB = dice.RollDice();
+                //diceA = dice.RollDice();
+                //diceB = dice.RollDice();
+                diceA = Random.Range(1, 6);
+                diceB = Random.Range(1, 6);
             } while (diceA == diceB);
             Debug.Log("Player 1 roll ->"+diceA);
             Debug.Log("Player 2 roll ->" + diceB);
