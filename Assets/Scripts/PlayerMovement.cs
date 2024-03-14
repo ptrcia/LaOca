@@ -12,10 +12,12 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform[] cells;
     public int currentCell;
+    public int noPlayableTurns = 0 ;
 
 
     public bool movementCompleted = true;
     public int diceValue = 0;
+
 
     private void Awake()
     {
@@ -26,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
         dice = GameObject.FindGameObjectWithTag("Dice").
             GetComponent<Dice>();
         transform.position = cells[0].position;
+        
 
     }
     void Start()
@@ -39,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
             currentCell = currentCell + diceResult;
             transform.position = cells[currentCell].position;
             Debug.Log("CurrentCell-> " + currentCell);
-            gameRules.CheckSpecialCell();
+            //gameRules.CheckSpecialCell(this);
             movementCompleted = true;
             Debug.Log("movementCompleted set to true.");
         }
@@ -62,8 +65,9 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("Dado:" + diceResult);
         transform.position = cells[currentCell].position;
         Debug.Log("CurrentCell tras movimiento-> " + currentCell);
-        //numberCell = currentCell + 1;
-        gameRules.CheckSpecialCell();
+        Debug.Log("not playable turns befor checking "+noPlayableTurns);
+        gameRules.CheckSpecialCell(this, this.gameObject);
+        Debug.Log("not playable turns after checking " + noPlayableTurns);
         movementCompleted = true;
         dice.diceRolled = false; 
     }
@@ -88,5 +92,6 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("Dice Value -> " + diceValue);
         movementCompleted = true;
     }
+
 }
     

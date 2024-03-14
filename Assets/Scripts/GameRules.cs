@@ -3,39 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameRules : MonoBehaviour
-{
-    [SerializeField] GameObject player;
-
-    PlayerMovement playerMovement;
+{   
     GameManager gameManager;
     TurnManager turnManager;
-
 
     int firstBridge = 5;
     int secondBridge = 11;
 
-    int firstDice = 15;
-    int secondDice = 12;
+    int firstDice = 25;
+    int secondDice = 51;
 
     int finalCell = 62;
 
-    private void Awake()
+    private void CheckGameObjects()
     {
-        playerMovement = GameObject.
-            FindGameObjectWithTag("Player").
-            GetComponent<PlayerMovement>();
         gameManager = GameObject.
             FindGameObjectWithTag("GameManager").
             GetComponent<GameManager>();
         turnManager = GameObject.FindGameObjectWithTag("TurnManager").
             GetComponent<TurnManager>();
-        player = GameObject.FindGameObjectWithTag("Player");
     }
-    public void CheckSpecialCell()
-    {
-        Awake();
+    public void CheckSpecialCell(PlayerMovement _playerMovement, GameObject player)
+    {    
+        Debug.Log("CuRRENT CELL PLAYER   " + _playerMovement.currentCell);
 
-        switch (playerMovement.currentCell)
+        CheckGameObjects();
+
+        switch(_playerMovement.currentCell)
+
         {
             case 4 or 8 or 13 or 17 or 22 or 26 or 31 or 35 or
                40 or 44 or 49 or 53 or 58:
@@ -50,137 +45,170 @@ public class GameRules : MonoBehaviour
                 Debug.Log("Posada");
                 Posada();
                 break;
+            case 41:
+                Debug.Log("Laberinto");
+                Laberinto();
+                break;
+            case 25 or 52:
+                Debug.Log("Dados");
+                Dados();
+                break;
+            case 57:
+                Debug.Log("Calavera");
+                Calavera();
+                break;
+            case 62:
+                Debug.Log("Final");
+                Final();
+                break;
+            case > 62:
+                Debug.Log("Jardín");
+                Jardin();
+                break;
+            default: break;
         }
         void Oca()
-        {
-            if (playerMovement.currentCell != 59)
+        {            
+            if (_playerMovement.currentCell != 57)
             {
-                Debug.Log("curretnBoardCell" + playerMovement.currentCell);
-                //currentBoardCell = currentBoardCell + 3;
-                //player.transform.position = playerMovement.cells[currentBoardCell+3].position;
-                Debug.Log("+3  ->" + playerMovement.currentCell);
-                turnManager.ReRoll();
+                //Debug.Log("curretnBoardCell" + _playerMovement.currentCell);
+
+                if (_playerMovement.currentCell == 4)
+                {
+                    player.transform.position = _playerMovement.cells[8].position;
+                }
+                else if (_playerMovement.currentCell == 8)
+                {
+                    player.transform.position = _playerMovement.cells[13].position;
+                }
+                else if (_playerMovement.currentCell == 13)
+                {
+                    player.transform.position = _playerMovement.cells[17].position;
+                }
+                else if (_playerMovement.currentCell == 17)
+                {
+                    player.transform.position = _playerMovement.cells[22].position;
+                }
+                else if (_playerMovement.currentCell == 22)
+                {
+                    player.transform.position = _playerMovement.cells[26].position;
+                }
+                else if (_playerMovement.currentCell == 26)
+                {
+                    player.transform.position = _playerMovement.cells[31].position;
+                }
+                else if (_playerMovement.currentCell == 31)
+                {
+                    player.transform.position = _playerMovement.cells[35].position;
+                }
+                else if (_playerMovement.currentCell == 35)
+                {
+                    player.transform.position = _playerMovement.cells[40].position;
+                }
+                else if (_playerMovement.currentCell == 40)
+                {
+                    player.transform.position = _playerMovement.cells[44].position;
+                }
+                else if (_playerMovement.currentCell == 48)
+                {
+                    player.transform.position = _playerMovement.cells[57].position;
+                }
+
+                turnManager.nextTurnPlayer = false;
             }
-            else if (playerMovement.currentCell == 59)
+            else if (_playerMovement.currentCell == 57)
             {
                 gameManager.Win();
             }
-
-
         }
         void Puente()
         {
-            Debug.Log("CHECKSPECIALCELL PUENTEEEEE");
-            if (playerMovement.currentCell == firstBridge)
+            if (_playerMovement.currentCell == firstBridge)
             {
-                playerMovement.currentCell = secondBridge;
-                player.transform.position = playerMovement.cells[playerMovement.currentCell].position;
+                _playerMovement.currentCell = secondBridge;
+                player.transform.position = _playerMovement.cells[_playerMovement.currentCell].position;
                 turnManager.nextTurnPlayer = false;
 
             }
-            else if (playerMovement.currentCell == secondBridge)
+            else if (_playerMovement.currentCell == secondBridge)
             {
-                playerMovement.currentCell = firstBridge;
-                player.transform.position = playerMovement.cells[playerMovement.currentCell].position;
+                _playerMovement.currentCell = firstBridge;
+                player.transform.position = _playerMovement.cells[_playerMovement.currentCell].position;
                 turnManager.nextTurnPlayer = false;
 
             }
         }
         void Posada()
         {
-            //turnManager.SkipTurn();
-            //a la sioguiente ronda no juega
+            _playerMovement.noPlayableTurns ++;
         }
         void Pozo()
         {
             /*
             while (player2.currentCell!=31 ||player3.currentCell ...)
             {
-                //turno.SaltarTturno;
+                _playerMovement.noPlayableTurns ++;
             }
             */
         }
         void Laberinto()
         {
-            playerMovement.currentCell = 30;
+            _playerMovement.currentCell = 30;
+            _playerMovement.transform.position = _playerMovement.cells[_playerMovement.currentCell].position;
+
         }
         void Cárcel()
         {
             /*
-             while(!player2.layerMovement.currentCell != 56 || ...)
+             while(!player2.layerMovement.currentCell != 50 || ...)
             {
-            turno.SaltarTurno();
+                _playerMovement.noPlayableTurns ++;
             }
              * */
         }
         void Dados()
         {
-            if (playerMovement.currentCell == firstDice)
+            if (_playerMovement.currentCell == firstDice)
             {
-                playerMovement.currentCell = secondDice;
-                player.transform.position = playerMovement.cells[playerMovement.currentCell].position;
+                _playerMovement.currentCell = secondDice;
+                player.transform.position = _playerMovement.cells[_playerMovement.currentCell].position;
 
             }
-            else if (playerMovement.currentCell == secondDice)
+            else if (_playerMovement.currentCell == secondDice)
             {
-                playerMovement.currentCell = firstDice;
-                player.transform.position = playerMovement.cells[playerMovement.currentCell].position;
+                _playerMovement.currentCell = firstDice;
+                player.transform.position = _playerMovement.cells[_playerMovement.currentCell].position;
 
             }
         }
         void Calavera()
         {
-            playerMovement.currentCell = 1;
+            _playerMovement.currentCell = 1;
         }
         void Final()
         {
-            //gameManager.Win();
+            gameManager.Win();
         }
         void Jardin()
         {
-            playerMovement.currentCell = playerMovement.currentCell -
-                            (playerMovement.currentCell - finalCell);
-            player.transform.position = playerMovement.cells[playerMovement.currentCell].position;
+            _playerMovement.currentCell = _playerMovement.currentCell -
+                            (_playerMovement.currentCell - finalCell);
+            player.transform.position = _playerMovement.cells[_playerMovement.currentCell].position;
 
-            CheckSpecialCell();
+            CheckSpecialCell(_playerMovement, _playerMovement.gameObject);
         }
 
 
         /*
-                 switch (playerMovement.currentCell)
-            {
-     
-
-                case 31:
+                case 30:
                     Debug.Log("Pozo");
                     Pozo();
                     break;
-                case 42:
-                    Debug.Log("Laberinto");
-                    Laberinto();
-                    break;
-                case 56:
+
+                case 55:
                     Debug.Log("Carcel");
                     Cárcel();
                     break;
-                case 26 or 53:
-                    Debug.Log("Dados");
-                    Dados();
-                    break;
-                case 58:
-                    Debug.Log("Calavera");
-                    Calavera();
-                    break;
-                case 63:
-                    Debug.Log("Final");
-                    Final();
-                    break;
-                case > 63:
-                    Debug.Log("Jardín");
-                    Jardin();
-                    break;
-                default: break;
-            }
          */
     }
 }
