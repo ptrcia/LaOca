@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -16,8 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     public bool movementCompleted = true;
-    public int diceValue = 0;
-
+    public int diceValue = 0; 
 
     private void Awake()
     {
@@ -34,12 +34,13 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         Debug.Log("Casilla Actual: " + currentCell);
+        //Asignar la casilla de salida, eso lo puedo hacer al instanciar
     }
   
     void Move()
         {
-            int diceResult = dice.RollDice();
-            currentCell = currentCell + diceResult;
+            diceValue = dice.RollDice();
+            currentCell = currentCell + diceValue;
             transform.position = cells[currentCell].position;
             Debug.Log("CurrentCell-> " + currentCell);
             //gameRules.CheckSpecialCell(this);

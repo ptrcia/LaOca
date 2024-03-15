@@ -11,8 +11,8 @@ public class Dice : MonoBehaviour
 
     public int RollDice()
     {
-        randomNumber = Random.Range(1, 6);
-        //randomNumber = 4;
+        //randomNumber = Random.Range(1, 6);
+        randomNumber = 63;
         return randomNumber;
     }
     private void OnMouseDown()

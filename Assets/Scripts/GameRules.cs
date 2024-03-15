@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameRules : MonoBehaviour
 {   
@@ -180,6 +181,7 @@ public class GameRules : MonoBehaviour
                 player.transform.position = _playerMovement.cells[_playerMovement.currentCell].position;
 
             }
+            turnManager.nextTurnPlayer = false;
         }
         void Calavera()
         {
@@ -191,9 +193,19 @@ public class GameRules : MonoBehaviour
         }
         void Jardin()
         {
-            _playerMovement.currentCell = _playerMovement.currentCell -
-                            (_playerMovement.currentCell - finalCell);
-            player.transform.position = _playerMovement.cells[_playerMovement.currentCell].position;
+            //no funciona
+            int difference=0;
+            Debug.Log("El jugador se mueve a la casilla " + _playerMovement.currentCell);
+         
+            difference = (_playerMovement.currentCell-finalCell);
+           
+            Debug.Log("El valor necesario para entrar en el Jardín desde la casilla " + _playerMovement.currentCell + " es: " + difference);
+
+            player.transform.position = _playerMovement.cells[_playerMovement.currentCell-difference].position;
+
+            Debug.Log("El jugador se mueve a la casilla " + (_playerMovement.currentCell-difference));
+
+            _playerMovement.currentCell -= difference;
 
             CheckSpecialCell(_playerMovement, _playerMovement.gameObject);
         }

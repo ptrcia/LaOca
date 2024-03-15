@@ -71,16 +71,13 @@ public class TurnManager : MonoBehaviour
             else
             {
                 Debug.Log("NO saltamos turno");
-
-                //Debug.Log("Turno del -> " + currentPlayer.name);
-
                 // Llamar a MoveIfDiceRolled una vez para cada jugador
                 currentPlayer.GetComponent<PlayerMovement>().MoveIfDiceRolled();
                              
                 // Esperar hasta que el jugador haya completado su movimiento
                 while (!currentPlayer.GetComponent<PlayerMovement>().HasCompletedMovement())
                 {
-                    yield return null; // Esperar un frame
+                    yield return null; 
                 }
                 if (nextTurnPlayer) { 
                     currentPlayerIndex++;
@@ -96,14 +93,6 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    public void SkipTurn()
-    {
-
-    }
-    public void ReRoll()
-    {
-    }
-
     void PlayerOrderAutomatic()
     {
         //players.Sort((a, b) => dice.RollDice().CompareTo(dice.RollDice()));
@@ -112,10 +101,10 @@ public class TurnManager : MonoBehaviour
             int diceA, diceB;
             do
             {
-                diceA = dice.RollDice();
-                diceB = dice.RollDice();
-                //diceA = Random.Range(1, 6);
-                //diceB = Random.Range(1, 6);
+                //diceA = dice.RollDice();
+                //diceB = dice.RollDice();
+                diceA = Random.Range(1, 6);
+                diceB = Random.Range(1, 6);
             } while (diceA == diceB);
             Debug.Log("Player 1 roll ->"+diceA);
             Debug.Log("Player 2 roll ->" + diceB);
