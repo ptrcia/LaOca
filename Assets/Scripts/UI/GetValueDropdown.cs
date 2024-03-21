@@ -6,7 +6,7 @@ using UnityEngine;
 public class GetValueDropdown : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown dropdown;
-    private string selectedOption = "1";
+    [SerializeField] string selectedOption;
 
     public void GetDropdownValue()
     {

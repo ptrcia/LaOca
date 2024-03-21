@@ -101,10 +101,10 @@ public class TurnManager : MonoBehaviour
             int diceA, diceB;
             do
             {
-                //diceA = dice.RollDice();
-                //diceB = dice.RollDice();
-                diceA = Random.Range(1, 6);
-                diceB = Random.Range(1, 6);
+                diceA = dice.RollDice();
+                diceB = dice.RollDice();
+                //diceA = Random.Range(1, 6);
+                //diceB = Random.Range(1, 6);
             } while (diceA == diceB);
             Debug.Log("Player 1 roll ->"+diceA);
             Debug.Log("Player 2 roll ->" + diceB);

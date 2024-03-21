@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 49e182162d58eff4993e43853cf273bf, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.55419946, g: 0.55419946, b: 0.55419946, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2224,10 +2224,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 805127353}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 805127357}
+        m_TargetAssemblyTypeName: PanelAnimation, Assembly-CSharp
+        m_MethodName: AnimatePanel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2678,6 +2678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropdown: {fileID: 693992905}
+  selectedOption: 1
 --- !u!1 &724453042
 GameObject:
   m_ObjectHideFlags: 0
@@ -2922,13 +2923,14 @@ GameObject:
   - component: {fileID: 805127354}
   - component: {fileID: 805127356}
   - component: {fileID: 805127355}
+  - component: {fileID: 805127357}
   m_Layer: 5
   m_Name: GameReady
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &805127354
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2950,7 +2952,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.7562083, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.8080444, y: 0}
+  m_AnchoredPosition: {x: -2057, y: 0}
   m_SizeDelta: {x: -8.436096, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &805127355
@@ -2991,6 +2993,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 805127353}
   m_CullTransparentMesh: 1
+--- !u!114 &805127357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805127353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c566567d10c98cb48b79019391b6124c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelTransform: {fileID: 805127354}
+  initialPosition: {x: 0, y: 0, z: 0}
+  targetPosition: {x: 730, y: 0, z: 0}
+  animationDuration: 1
 --- !u!1 &846956568
 GameObject:
   m_ObjectHideFlags: 0
@@ -4531,7 +4549,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ea2907208fd7074ea9cfcbabf641b75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getValueDropdown: {fileID: 693992908}
+  getValueDropdownPlayers: {fileID: 693992908}
+  getValueDropdownBoards: {fileID: 1940038572}
+  getValueDropdownLanguage: {fileID: 0}
+  startButton: {fileID: 1915830319}
 --- !u!1 &1179197825
 GameObject:
   m_ObjectHideFlags: 0
@@ -6663,7 +6684,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1915830322}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1161286944}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: PlayGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1915830322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7237,6 +7270,7 @@ GameObject:
   - component: {fileID: 1940038571}
   - component: {fileID: 1940038570}
   - component: {fileID: 1940038569}
+  - component: {fileID: 1940038572}
   m_Layer: 5
   m_Name: Dropdown Board
   m_TagString: Untagged
@@ -7360,6 +7394,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1940038567}
   m_CullTransparentMesh: 1
+--- !u!114 &1940038572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940038567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0712cfb5fbf0dca4e9120c758158b9c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropdown: {fileID: 1940038569}
+  selectedOption: Classic
 --- !u!1 &1942209540
 GameObject:
   m_ObjectHideFlags: 0
