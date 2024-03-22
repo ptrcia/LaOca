@@ -24,6 +24,7 @@ public class Dice : MonoBehaviour
         if (canRollDice)
         {
             RollDice();
+            ToString();
             diceRolled = true;
         }
     }

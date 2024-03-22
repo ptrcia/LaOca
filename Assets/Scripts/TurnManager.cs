@@ -6,19 +6,26 @@ using UnityEngine;
 public class TurnManager : MonoBehaviour
 {
     public bool nextTurnPlayer;
+    public int currentPlayerIndex = 0;
+    [SerializeField] GameObject playerPrefab;
+    [SerializeField] Transform[] playerStartPosition;
+    [SerializeField] Color[] playerColor;
 
     Dice dice;
-
+    GameObject currentPlayer;
     List<GameObject> players = new List<GameObject>();
     List<int> diceValues = new List<int>();
 
-    public int currentPlayerIndex = 0;
-    GameObject currentPlayer;
-
-    //Decidir cuantos jugadores y hacer un Invoke??????
-
     private void Awake()
     {
+        Debug.Log("Numero de jugadores: " + PlayerPrefs.GetInt("NumberPlayers"));
+        for(int i = 0; i< PlayerPrefs.GetInt("NumberPlayers"); i++)
+        {
+            GameObject clonePrefab = Instantiate(playerPrefab, playerStartPosition[i]);
+            clonePrefab.GetComponent<Renderer>().material.color = playerColor[i];
+            clonePrefab.transform.localScale = new Vector3(5f, 0.1f, 5f);
+
+        }
         currentPlayer = GameObject.FindGameObjectWithTag("Player");
         dice = GameObject.FindGameObjectWithTag("Dice").
             GetComponent<Dice>();
@@ -45,13 +52,11 @@ public class TurnManager : MonoBehaviour
 
     IEnumerator PlayerTurn()
     {
-
         while (currentPlayerIndex < players.Count)
         {
             nextTurnPlayer = true;
 
-            //GameObject 
-                currentPlayer = players[currentPlayerIndex];
+            currentPlayer = players[currentPlayerIndex];
             Debug.Log("Turno del -> " + currentPlayer.name);
 
             Debug.Log("no playable turns : " + currentPlayer.GetComponent<PlayerMovement>().noPlayableTurns);
@@ -117,7 +122,6 @@ public class TurnManager : MonoBehaviour
         {
             Debug.Log("Turno " + (i + 1) + ": " + players[i].name);
         }
-
     }
 
     void PlayerOrder()
@@ -151,9 +155,6 @@ public class TurnManager : MonoBehaviour
 
     void SortPlayersByDiceValues(List<int> diceValues)
     {
-        // Tu lógica de ordenamiento aquí...
-
-        // Mostrar el orden de los jugadores en la consola
         Debug.Log("Orden de los jugadores por turnos:");
         for (int i = 0; i < players.Count; i++)
         {
