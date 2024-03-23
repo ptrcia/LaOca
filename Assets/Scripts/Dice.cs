@@ -43,10 +43,10 @@ public class Dice : MonoBehaviour
     }
 
 
-    void ToString()
+    /*void ToString()
     {
         diceText.text = randomNumber.ToString();
-    }
+    }*/
     #endregion
 
     

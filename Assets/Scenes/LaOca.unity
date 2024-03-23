@@ -3332,6 +3332,114 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 545231940}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &549871688
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 549871689}
+  - component: {fileID: 549871690}
+  m_Layer: 0
+  m_Name: CellManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &549871689
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549871688}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 701891017}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &549871690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549871688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a06b10eb7a7c2c24e93d86f64cb08b1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cells:
+  - {fileID: 1564928407}
+  - {fileID: 1228576530}
+  - {fileID: 860268670}
+  - {fileID: 1728656576}
+  - {fileID: 698763850}
+  - {fileID: 88074044}
+  - {fileID: 1648806825}
+  - {fileID: 1949780681}
+  - {fileID: 867426526}
+  - {fileID: 187536998}
+  - {fileID: 715626511}
+  - {fileID: 1069490077}
+  - {fileID: 1236148509}
+  - {fileID: 2146162720}
+  - {fileID: 56806889}
+  - {fileID: 1973450982}
+  - {fileID: 1419529708}
+  - {fileID: 1773320444}
+  - {fileID: 994688951}
+  - {fileID: 1741216448}
+  - {fileID: 1359840206}
+  - {fileID: 2091237774}
+  - {fileID: 545231941}
+  - {fileID: 389298420}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1973967508}
+  - {fileID: 28465670}
+  - {fileID: 1147788162}
+  - {fileID: 863574550}
+  - {fileID: 882384591}
+  - {fileID: 1923540767}
+  - {fileID: 2090952908}
+  - {fileID: 524489917}
+  - {fileID: 1682200460}
+  - {fileID: 272882009}
+  - {fileID: 1354135266}
+  - {fileID: 1508131613}
+  - {fileID: 638209845}
+  - {fileID: 1668573248}
+  - {fileID: 460477749}
+  - {fileID: 199137777}
+  - {fileID: 16300150}
+  - {fileID: 54487078}
+  - {fileID: 11665871}
+  - {fileID: 1724754951}
+  - {fileID: 790993972}
+  - {fileID: 917939979}
+  - {fileID: 85745850}
+  - {fileID: 1892105414}
+  - {fileID: 976512969}
+  - {fileID: 1852554847}
+  - {fileID: 550153353}
+  - {fileID: 1250956591}
+  - {fileID: 1811414917}
+  - {fileID: 2091272503}
+  - {fileID: 1932730485}
+  - {fileID: 1762204134}
+  - {fileID: 1920776026}
+  - {fileID: 238036298}
+  - {fileID: 923116725}
+  - {fileID: 1188800190}
+  - {fileID: 610995062}
 --- !u!1 &550153352
 GameObject:
   m_ObjectHideFlags: 0
@@ -4305,6 +4413,7 @@ Transform:
   - {fileID: 1980848364}
   - {fileID: 1085312914}
   - {fileID: 1530488358}
+  - {fileID: 549871689}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
@@ -8177,7 +8286,7 @@ GameObject:
   - component: {fileID: 1530488359}
   m_Layer: 0
   m_Name: PauseMenu
-  m_TagString: Untagged
+  m_TagString: PauseMenu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8209,6 +8318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 230290efa16918e42802820d2a377bf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  diceImage: {fileID: 855791381}
 --- !u!1 &1564928403
 GameObject:
   m_ObjectHideFlags: 0
@@ -10972,7 +11082,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2026808829
 Transform:
   m_ObjectHideFlags: 0
@@ -11001,80 +11111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 022e5d21ba8bd2349943b9fbffce52ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cells:
-  - {fileID: 50872729}
-  - {fileID: 1228576530}
-  - {fileID: 860268670}
-  - {fileID: 1728656576}
-  - {fileID: 698763850}
-  - {fileID: 88074044}
-  - {fileID: 1648806825}
-  - {fileID: 1949780681}
-  - {fileID: 867426526}
-  - {fileID: 187536998}
-  - {fileID: 715626511}
-  - {fileID: 1069490077}
-  - {fileID: 1236148509}
-  - {fileID: 2146162720}
-  - {fileID: 56806889}
-  - {fileID: 1973450982}
-  - {fileID: 1419529708}
-  - {fileID: 1773320444}
-  - {fileID: 994688951}
-  - {fileID: 1741216448}
-  - {fileID: 1359840206}
-  - {fileID: 2091237774}
-  - {fileID: 545231941}
-  - {fileID: 389298420}
-  - {fileID: 80029725}
-  - {fileID: 242896770}
-  - {fileID: 1973967508}
-  - {fileID: 28465670}
-  - {fileID: 1147788162}
-  - {fileID: 863574550}
-  - {fileID: 882384591}
-  - {fileID: 1923540767}
-  - {fileID: 2090952908}
-  - {fileID: 524489917}
-  - {fileID: 1682200460}
-  - {fileID: 272882009}
-  - {fileID: 1354135266}
-  - {fileID: 1508131613}
-  - {fileID: 638209845}
-  - {fileID: 1668573248}
-  - {fileID: 460477749}
-  - {fileID: 199137777}
-  - {fileID: 16300150}
-  - {fileID: 54487078}
-  - {fileID: 11665871}
-  - {fileID: 1724754951}
-  - {fileID: 790993972}
-  - {fileID: 917939979}
-  - {fileID: 85745850}
-  - {fileID: 1892105414}
-  - {fileID: 976512969}
-  - {fileID: 1852554847}
-  - {fileID: 550153353}
-  - {fileID: 1250956591}
-  - {fileID: 1811414917}
-  - {fileID: 2091272503}
-  - {fileID: 1932730485}
-  - {fileID: 1762204134}
-  - {fileID: 1920776026}
-  - {fileID: 238036298}
-  - {fileID: 923116725}
-  - {fileID: 1188800190}
-  - {fileID: 610995062}
-  - {fileID: 240052417}
-  - {fileID: 240052417}
-  - {fileID: 240052417}
-  - {fileID: 240052417}
-  - {fileID: 240052417}
   currentCell: 0
   noPlayableTurns: 0
   movementCompleted: 1
   diceValue: 0
-  diceImage: {fileID: 855791381}
 --- !u!136 &2026808831
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -11856,7 +11896,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &1845296278767737119
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -12254,80 +12294,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 022e5d21ba8bd2349943b9fbffce52ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cells:
-  - {fileID: 1564928407}
-  - {fileID: 1228576530}
-  - {fileID: 860268670}
-  - {fileID: 1728656576}
-  - {fileID: 698763850}
-  - {fileID: 88074044}
-  - {fileID: 1648806825}
-  - {fileID: 1949780681}
-  - {fileID: 867426526}
-  - {fileID: 187536998}
-  - {fileID: 715626511}
-  - {fileID: 1069490077}
-  - {fileID: 1236148509}
-  - {fileID: 2146162720}
-  - {fileID: 56806889}
-  - {fileID: 1973450982}
-  - {fileID: 1419529708}
-  - {fileID: 1773320444}
-  - {fileID: 994688951}
-  - {fileID: 1741216448}
-  - {fileID: 1359840206}
-  - {fileID: 2091237774}
-  - {fileID: 545231941}
-  - {fileID: 389298420}
-  - {fileID: 80029725}
-  - {fileID: 242896770}
-  - {fileID: 1973967508}
-  - {fileID: 28465670}
-  - {fileID: 1147788162}
-  - {fileID: 863574550}
-  - {fileID: 882384591}
-  - {fileID: 1923540767}
-  - {fileID: 2090952908}
-  - {fileID: 524489917}
-  - {fileID: 1682200460}
-  - {fileID: 272882009}
-  - {fileID: 1354135266}
-  - {fileID: 1508131613}
-  - {fileID: 638209845}
-  - {fileID: 1668573248}
-  - {fileID: 460477749}
-  - {fileID: 199137777}
-  - {fileID: 16300150}
-  - {fileID: 54487078}
-  - {fileID: 11665871}
-  - {fileID: 1724754951}
-  - {fileID: 790993972}
-  - {fileID: 917939979}
-  - {fileID: 85745850}
-  - {fileID: 1892105414}
-  - {fileID: 976512969}
-  - {fileID: 1852554847}
-  - {fileID: 550153353}
-  - {fileID: 1250956591}
-  - {fileID: 1811414917}
-  - {fileID: 2091272503}
-  - {fileID: 1932730485}
-  - {fileID: 1762204134}
-  - {fileID: 1920776026}
-  - {fileID: 238036298}
-  - {fileID: 923116725}
-  - {fileID: 1188800190}
-  - {fileID: 610995062}
-  - {fileID: 240052417}
-  - {fileID: 240052417}
-  - {fileID: 240052417}
-  - {fileID: 240052417}
-  - {fileID: 240052417}
   currentCell: 0
   noPlayableTurns: 0
   movementCompleted: 1
   diceValue: 0
-  diceImage: {fileID: 855791381}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

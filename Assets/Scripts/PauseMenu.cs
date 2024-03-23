@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    public RectTransform diceImage;
 
     public void Quit()
     {
@@ -19,5 +21,11 @@ public class PauseMenu : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
+    public void AnimatingDiceIimage()
+    {
+        diceImage.DOScale(new Vector3(0.5f, 0.5f, diceImage.localScale.z), 1f).SetEase(Ease.OutQuad).OnComplete(() =>
+        {
+            diceImage.DOScale(Vector3.zero, 0.5f).SetEase(Ease.OutQuad);
+        });
+    }
 }

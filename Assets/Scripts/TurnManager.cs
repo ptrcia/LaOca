@@ -100,6 +100,7 @@ public class TurnManager : MonoBehaviour
 
     void PlayerOrderAutomatic()
     {
+        Debug.Log("Ejecutando players order automatic");
         //players.Sort((a, b) => dice.RollDice().CompareTo(dice.RollDice()));
         players.Sort((a, b) =>
         {
