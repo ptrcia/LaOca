@@ -15,6 +15,7 @@ public class TurnManager : MonoBehaviour
     GameObject currentPlayer;
     List<GameObject> players = new List<GameObject>();
     List<int> diceValues = new List<int>();
+    PlayerMovement playerMovement;
 
     private void Awake()
     {
@@ -24,7 +25,11 @@ public class TurnManager : MonoBehaviour
             GameObject clonePrefab = Instantiate(playerPrefab, playerStartPosition[i]);
             clonePrefab.GetComponent<Renderer>().material.color = playerColor[i];
             clonePrefab.transform.localScale = new Vector3(5f, 0.1f, 5f);
-
+            clonePrefab.transform.localPosition = new Vector3(0, 0.1f, 0);
+            string newID = "Player" + (i + 1).ToString();
+            clonePrefab.GetComponent<PlayerMovement>().playerID = newID;
+            Debug.Log("Id para del prefab: " + clonePrefab.GetComponent<PlayerMovement>().playerID);
+            //decirle por codigo que coja el text mesh pro y le diga que la ponga el numero :)
         }
         currentPlayer = GameObject.FindGameObjectWithTag("Player");
         dice = GameObject.FindGameObjectWithTag("Dice").
@@ -33,10 +38,11 @@ public class TurnManager : MonoBehaviour
     void Start()
     {
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+        //Debug.Log(playerObjects);
         foreach (GameObject player in playerObjects)
         {
             players.Add(player);
-            Debug.Log("Lista de Jugadores:" + player.ToString());
+            Debug.Log("Lista de Jugadores:" + player.GetComponent<PlayerMovement>().playerID);
         }
         StartGame();
     }
@@ -57,7 +63,7 @@ public class TurnManager : MonoBehaviour
             nextTurnPlayer = true;
 
             currentPlayer = players[currentPlayerIndex];
-            Debug.Log("Turno del -> " + currentPlayer.name);
+            Debug.Log("Turno del -> " + currentPlayer.GetComponent<PlayerMovement>().playerID);
 
             Debug.Log("no playable turns : " + currentPlayer.GetComponent<PlayerMovement>().noPlayableTurns);
 
@@ -107,12 +113,12 @@ public class TurnManager : MonoBehaviour
             int diceA, diceB;
             do
             {
-                diceA = dice.RollDice();
-                diceB = dice.RollDice();
-                //diceA = Random.Range(1, 6);
-                //diceB = Random.Range(1, 6);
+                //diceA = dice.RollDice();
+                //diceB = dice.RollDice();
+                diceA = Random.Range(1, 6);
+                diceB = Random.Range(1, 6);
             } while (diceA == diceB);
-            Debug.Log("Player 1 roll ->"+diceA);
+            Debug.Log("Player 1 roll ->" + diceA);
             Debug.Log("Player 2 roll ->" + diceB);
             return diceB.CompareTo(diceA);
         });
@@ -121,7 +127,7 @@ public class TurnManager : MonoBehaviour
         Debug.Log("Orden de los jugadores por turnos:");
         for (int i = 0; i < players.Count; i++)
         {
-            Debug.Log("Turno " + (i + 1) + ": " + players[i].name);
+            Debug.Log("Turno " + (i + 1) + ": " + players[i].GetComponent<PlayerMovement>().playerID);
         }
     }
 
@@ -159,7 +165,7 @@ public class TurnManager : MonoBehaviour
         Debug.Log("Orden de los jugadores por turnos:");
         for (int i = 0; i < players.Count; i++)
         {
-            Debug.Log("Turno " + (i + 1) + ": " + players[i].name);
+            Debug.Log("Turno " + (i + 1) + ": " + players[i].GetComponent<PlayerMovement>().playerID);
         }
     }
 }

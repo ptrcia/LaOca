@@ -2016,6 +2016,7 @@ GameObject:
   - component: {fileID: 540561269}
   - component: {fileID: 540561268}
   - component: {fileID: 540561267}
+  - component: {fileID: 540561270}
   m_Layer: 5
   m_Name: Dropdown Language
   m_TagString: Untagged
@@ -2141,6 +2142,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 540561265}
   m_CullTransparentMesh: 1
+--- !u!114 &540561270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540561265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0712cfb5fbf0dca4e9120c758158b9c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropdown: {fileID: 540561267}
+  selectedOption: English
 --- !u!1 &569725071
 GameObject:
   m_ObjectHideFlags: 0
@@ -2787,8 +2802,8 @@ Transform:
   - {fileID: 1870729435}
   - {fileID: 190353163}
   - {fileID: 540561266}
-  - {fileID: 1565490883}
   - {fileID: 775614644}
+  - {fileID: 1565490883}
   m_Father: {fileID: 114242780}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &775614643
@@ -4551,7 +4566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   getValueDropdownPlayers: {fileID: 693992908}
   getValueDropdownBoards: {fileID: 1940038572}
-  getValueDropdownLanguage: {fileID: 0}
+  getValueDropdownLanguage: {fileID: 540561270}
   startButton: {fileID: 1915830319}
 --- !u!1 &1179197825
 GameObject:

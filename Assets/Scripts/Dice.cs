@@ -16,7 +16,7 @@ public class Dice : MonoBehaviour
     public int RollDice()
     {
         randomNumber = Random.Range(1, 6);
-        //randomNumber = 63;
+        randomNumber = 4;
         return randomNumber;
     }
     private void OnMouseDown()
@@ -24,7 +24,7 @@ public class Dice : MonoBehaviour
         if (canRollDice)
         {
             RollDice();
-            ToString();
+            NumberToString();
             diceRolled = true;
         }
     }
@@ -43,10 +43,10 @@ public class Dice : MonoBehaviour
     }
 
 
-    /*void ToString()
+    void NumberToString()
     {
         diceText.text = randomNumber.ToString();
-    }*/
+    }
     #endregion
 
     

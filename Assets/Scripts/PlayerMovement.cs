@@ -15,11 +15,11 @@ public class PlayerMovement : MonoBehaviour
 
     int playersInCell;
 
-    //public Transform[] cells;
     public int currentCell;
     public int noPlayableTurns = 0 ;
     public bool movementCompleted = true;
     public int diceValue = 0;
+    public string playerID = "sinID";
 
 
     private void Awake()
@@ -32,9 +32,6 @@ public class PlayerMovement : MonoBehaviour
             GetComponent<Dice>();
         pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu")
             .GetComponent<PauseMenu>();
-
-        //transform.position = cells[0].position;
-        //transform.position = CellManager.instance.cells[0].position;
     }
     void Start()
     {
@@ -74,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
         //CellArragement();
         Debug.Log("CurrentCell tras movimiento-> " + currentCell);
         Debug.Log("not playable turns befor checking "+noPlayableTurns);
-        //gameRules.CheckSpecialCell(this, this.gameObject);
+        gameRules.CheckSpecialCell(this, this.gameObject);
         Debug.Log("not playable turns after checking " + noPlayableTurns);
         movementCompleted = true;
         dice.diceRolled = false; 
@@ -126,9 +123,6 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.position = CellManager.instance.cells[currentCell].position;
         }
-
     }
-
-
 }
     
