@@ -46,6 +46,10 @@ public class GameRules : MonoBehaviour
                 Debug.Log("Posada");
                 Posada();
                 break;
+            case 30:
+                Debug.Log("Pozo");
+                //Pozo();
+                break;
             case 41:
                 Debug.Log("Laberinto");
                 Laberinto();
@@ -53,6 +57,10 @@ public class GameRules : MonoBehaviour
             case 25 or 52:
                 Debug.Log("Dados");
                 Dados();
+                break;
+            case 55:
+                Debug.Log("Carcel");
+                //Cárcel();
                 break;
             case 57:
                 Debug.Log("Calavera");
@@ -217,18 +225,5 @@ public class GameRules : MonoBehaviour
 
             CheckSpecialCell(_playerMovement, CellManager.instance.gameObject);
         }
-
-
-        /*
-                case 30:
-                    Debug.Log("Pozo");
-                    Pozo();
-                    break;
-
-                case 55:
-                    Debug.Log("Carcel");
-                    Cárcel();
-                    break;
-         */
     }
 }

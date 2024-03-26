@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
@@ -26,10 +27,10 @@ public class TurnManager : MonoBehaviour
             clonePrefab.GetComponent<Renderer>().material.color = playerColor[i];
             clonePrefab.transform.localScale = new Vector3(5f, 0.1f, 5f);
             clonePrefab.transform.localPosition = new Vector3(0, 0.1f, 0);
-            string newID = "Player" + (i + 1).ToString();
+            string newID = "Player " + (i + 1).ToString();
             clonePrefab.GetComponent<PlayerMovement>().playerID = newID;
             Debug.Log("Id para del prefab: " + clonePrefab.GetComponent<PlayerMovement>().playerID);
-            //decirle por codigo que coja el text mesh pro y le diga que la ponga el numero :)
+            clonePrefab.GetComponentInChildren<TextMeshProUGUI>().text = newID;
         }
         currentPlayer = GameObject.FindGameObjectWithTag("Player");
         dice = GameObject.FindGameObjectWithTag("Dice").
@@ -56,6 +57,7 @@ public class TurnManager : MonoBehaviour
         StartCoroutine(PlayerTurn());
     }
 
+    #region Turns
     IEnumerator PlayerTurn()
     {
         while (currentPlayerIndex < players.Count)
@@ -82,10 +84,7 @@ public class TurnManager : MonoBehaviour
             else
             {
                 Debug.Log("NO saltamos turno");
-                // Llamar a MoveIfDiceRolled una vez para cada jugador
-                currentPlayer.GetComponent<PlayerMovement>().MoveIfDiceRolled();
-                             
-                // Esperar hasta que el jugador haya completado su movimiento
+                currentPlayer.GetComponent<PlayerMovement>().MoveIfDiceRolled();                             
                 while (!currentPlayer.GetComponent<PlayerMovement>().HasCompletedMovement())
                 {
                     yield return null; 
@@ -100,10 +99,11 @@ public class TurnManager : MonoBehaviour
                     }
                 }
             }
-
         }
     }
+    #endregion
 
+    #region Order Automatic
     void PlayerOrderAutomatic()
     {
         Debug.Log("Ejecutando players order automatic");
@@ -123,14 +123,15 @@ public class TurnManager : MonoBehaviour
             return diceB.CompareTo(diceA);
         });
         
-        // Mostrar el orden de los jugadores en la consola
         Debug.Log("Orden de los jugadores por turnos:");
         for (int i = 0; i < players.Count; i++)
         {
             Debug.Log("Turno " + (i + 1) + ": " + players[i].GetComponent<PlayerMovement>().playerID);
         }
     }
+    #endregion
 
+    #region Order by Rolling
     void PlayerOrder()
     {
         List<int> diceValues = new List<int>();
@@ -168,4 +169,5 @@ public class TurnManager : MonoBehaviour
             Debug.Log("Turno " + (i + 1) + ": " + players[i].GetComponent<PlayerMovement>().playerID);
         }
     }
+    #endregion
 }

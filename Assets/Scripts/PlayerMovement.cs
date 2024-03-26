@@ -4,16 +4,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Xml.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
     Dice dice;
-    GameManager gameManager;
+    //GameManager gameManager;
     GameRules gameRules;
     PauseMenu pauseMenu;
 
-    int playersInCell;
+    //int playersInCell;
 
     public int currentCell;
     public int noPlayableTurns = 0 ;
@@ -24,8 +25,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        gameManager = GameObject.FindGameObjectWithTag("GameManager").
-            GetComponent<GameManager>();
+        //gameManager = GameObject.FindGameObjectWithTag("GameManager").
+            //GetComponent<GameManager>();
         gameRules = GameObject.FindGameObjectWithTag("GameRules").
             GetComponent<GameRules>();
         dice = GameObject.FindGameObjectWithTag("Dice").
@@ -50,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("movementCompleted set to true.");
         }
 
+    #region Move
     public void MoveIfDiceRolled()
     {
         movementCompleted = false;
@@ -66,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
         int diceResult = dice.RollDice();
         currentCell = currentCell + diceResult;   //////////////
         Debug.Log("Dado:" + diceResult);
-        pauseMenu.AnimatingDiceIimage();
+        pauseMenu.AnimatingDiceImage();
         transform.position = CellManager.instance.cells[currentCell].position; //ATENCION
         //CellArragement();
         Debug.Log("CurrentCell tras movimiento-> " + currentCell);
@@ -80,7 +82,9 @@ public class PlayerMovement : MonoBehaviour
     {
         return movementCompleted;
     }
+    #endregion
 
+    #region Order By Rolling
     public void OrderIfDiceRolled()
     {
         movementCompleted = false;
@@ -97,32 +101,94 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("Dice Value -> " + diceValue);
         movementCompleted = true;
     }
-    private void OnCollisionEnter(Collision other)
+    #endregion
+
+    #region Cell Arragement
+
+   /* void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.GetComponent<CellContainer>())
-        {
+        {           
             playersInCell = other.gameObject.GetComponent<CellContainer>().currentPlayersInCell;
+            Debug.Log(playersInCell + "<------ colision del player");
         }
-    }
-    void CellArragement()
+    }*/
+
+    public void CellArragement(int playersCounter, List<GameObject>players)
     {
-        if (playersInCell == 2)
+        if (playersCounter == 2)
         {
-            Debug.Log("Hay 2 players aqui");//arriba
-            transform.position = new Vector3
-                (CellManager.instance.cells[currentCell].position.x - 0.5f, CellManager.instance.cells[currentCell].position.y, CellManager.instance.cells[currentCell].position.z);
+            Debug.Log("Hay 2 players aqui");
+
+            //abajo
+            players[0].transform.position = new Vector3(
+                CellManager.instance.cells[currentCell].position.x,
+                CellManager.instance.cells[currentCell].position.y,
+                CellManager.instance.cells[currentCell].position.z + 0.2f);
+            //arriba
+            players[1].transform.position = new Vector3(
+                CellManager.instance.cells[currentCell].position.x,
+                CellManager.instance.cells[currentCell].position.y,
+                CellManager.instance.cells[currentCell].position.z - 0.2f);
+            
         }
-        else if(playersInCell > 2)
+        else if(playersCounter == 3 )
         {
-            Debug.Log("Hay + de 2 players aqui");
-            //ni idea
-            //arroba a la derecha
-            transform.position = new Vector3
-                (CellManager.instance.cells[currentCell].position.x - 0.5f, CellManager.instance.cells[currentCell].position.y, CellManager.instance.cells[currentCell].position.z + 0.5f);
-        }else
+            Debug.Log("Hay 3 players aqui");
+            //abajo
+            players[0].transform.position = new Vector3(
+                CellManager.instance.cells[currentCell].position.x, 
+                CellManager.instance.cells[currentCell].position.y, 
+                CellManager.instance.cells[currentCell].position.z - 0.2f);
+            //arriba derehca
+            players[1].transform.position = new Vector3(
+                CellManager.instance.cells[currentCell].position.x - 0.17f,
+                CellManager.instance.cells[currentCell].position.y,
+                CellManager.instance.cells[currentCell].position.z + 0.2f);
+            //arriba izquierda
+            players[2].transform.position = new Vector3(              
+                CellManager.instance.cells[currentCell].position.x + 0.17f,
+                CellManager.instance.cells[currentCell].position.y,
+                CellManager.instance.cells[currentCell].position.z + 0.2f);
+        }
+        else if(playersCounter == 4 )
         {
-            transform.position = CellManager.instance.cells[currentCell].position;
+            Debug.Log("Hay 4 players aqui");
+            //abajo derecha
+            players[0].transform.position = new Vector3(
+                CellManager.instance.cells[currentCell].position.x + 0.17f, 
+                CellManager.instance.cells[currentCell].position.y,
+                CellManager.instance.cells[currentCell].position.z - 0.2f);
+            //arriba derecha
+            players[1].transform.position = new Vector3(
+                CellManager.instance.cells[currentCell].position.x - 0.17f,
+                CellManager.instance.cells[currentCell].position.y,
+                CellManager.instance.cells[currentCell].position.z + 0.2f);
+            //arriba izquierda
+            players[2].transform.position = new Vector3(
+                CellManager.instance.cells[currentCell].position.x + 0.17f,
+                CellManager.instance.cells[currentCell].position.y,
+                CellManager.instance.cells[currentCell].position.z + 0.2f);
+            //abajo izquierda
+            players[3].transform.position = new Vector3(
+                CellManager.instance.cells[currentCell].position.x - 0.17f,
+                CellManager.instance.cells[currentCell].position.y,
+                CellManager.instance.cells[currentCell].position.z - 0.2f);
+        }
+        else
+        {
+            Debug.Log("Al centro");
+            players[0].transform.position = new Vector3(
+                CellManager.instance.cells[currentCell].position.x,
+                CellManager.instance.cells[currentCell].position.y,
+                CellManager.instance.cells[currentCell].position.z);
         }
     }
+
+
+
+
+
+    #endregion
 }
-    
+

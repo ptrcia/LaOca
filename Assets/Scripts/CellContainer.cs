@@ -8,17 +8,21 @@ public class CellContainer : MonoBehaviour
 {
     public int currentPlayersInCell;
     public List<string> playersInCell = new List<string>();
+    public List<GameObject> playersObjectsInCell = new List<GameObject>();
+
+    PlayerMovement playerMovementCtrl;
+
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("COLISION==========");
+        playerMovementCtrl = collision.gameObject.GetComponent<PlayerMovement>();
+
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Players in cell: " + currentPlayersInCell);
             currentPlayersInCell++;
-            playersInCell.Add(collision.gameObject.GetComponent<PlayerMovement>().playerID);
-            //Debug.Log("List of players in cell: " +  playersInCell);
-            Debug.Log("List of players in cell: " + string.Join(", ", playersInCell)); // Convertimos la lista a una cadena para imprimir
-
+            playersObjectsInCell.Add(collision.gameObject);
+            //playersObjectsInCell.Add(playerMovementCtrl.playerID);
+            Debug.Log("Enter List  of the "+currentPlayersInCell+" players in " + gameObject.name + ": " + string.Join(", ", playersInCell));
+            playerMovementCtrl.CellArragement(currentPlayersInCell, playersObjectsInCell);
         }
     }
 
@@ -26,11 +30,10 @@ public class CellContainer : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Players in cell: " + currentPlayersInCell);
             currentPlayersInCell--;
-            playersInCell.Remove(collision.gameObject.GetComponent<PlayerMovement>().playerID); // Usamos Remove para eliminar el jugador de la lista
-            //Debug.Log("List of players in cell: " + playersInCell);
-            Debug.Log("List of players in cell: " + string.Join(", ", playersInCell));
+            playersObjectsInCell.Remove(collision.gameObject); 
+            Debug.Log("Exit List of the " + currentPlayersInCell + " players in " + gameObject.name + ": " + string.Join(", ", playersInCell));
+            playerMovementCtrl.CellArragement(currentPlayersInCell, playersObjectsInCell);
         }
     }
 }

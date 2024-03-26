@@ -21,7 +21,7 @@ public class PauseMenu : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-    public void AnimatingDiceIimage()
+    public void AnimatingDiceImage()
     {
         diceImage.DOScale(new Vector3(0.5f, 0.5f, diceImage.localScale.z), 1f).SetEase(Ease.OutQuad).OnComplete(() =>
         {
