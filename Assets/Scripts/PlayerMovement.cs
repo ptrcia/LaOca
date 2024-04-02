@@ -1,10 +1,6 @@
 using DG.Tweening;
-using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Xml.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -12,7 +8,8 @@ public class PlayerMovement : MonoBehaviour
     Dice dice;
     //GameManager gameManager;
     GameRules gameRules;
-    PauseMenu pauseMenu;
+    //PauseMenu pauseMenu;
+    GameManagerUI gameManagerUI;
 
     //int playersInCell;
 
@@ -31,13 +28,15 @@ public class PlayerMovement : MonoBehaviour
             GetComponent<GameRules>();
         dice = GameObject.FindGameObjectWithTag("Dice").
             GetComponent<Dice>();
-        pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu")
-            .GetComponent<PauseMenu>();
+        //pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu")
+            //.GetComponent<PauseMenu>();
+        gameManagerUI = GameObject.FindGameObjectWithTag("GameManagerUI")
+            .GetComponent<GameManagerUI>();
     }
     void Start()
     {
         Debug.Log("Casilla Actual: " + currentCell);
-        pauseMenu.diceImage.localScale = Vector3.zero;
+        gameManagerUI.diceImage.localScale = Vector3.zero;
     }
   
     void Move()
@@ -68,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
         int diceResult = dice.RollDice();
         currentCell = currentCell + diceResult;   //////////////
         Debug.Log("Dado:" + diceResult);
-        pauseMenu.AnimatingDiceImage();
+        gameManagerUI.AnimatingDiceImage();
         transform.position = CellManager.instance.cells[currentCell].position; //ATENCION
         //CellArragement();
         Debug.Log("CurrentCell tras movimiento-> " + currentCell);
@@ -104,15 +103,6 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Cell Arragement
-
-   /* void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.GetComponent<CellContainer>())
-        {           
-            playersInCell = other.gameObject.GetComponent<CellContainer>().currentPlayersInCell;
-            Debug.Log(playersInCell + "<------ colision del player");
-        }
-    }*/
 
     public void CellArragement(int playersCounter, List<GameObject>players)
     {

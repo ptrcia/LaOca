@@ -23,7 +23,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        FadeOutButton();
+        FillScreenButton();
         float delay = 1f;
         Invoke("LoadScene", delay);
     }
@@ -99,7 +99,7 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
-    private void FadeOutButton()
+    private void FillScreenButton()
     {
         RectTransform rectTransform = startButton.GetComponent<RectTransform>();
         Vector2 screenSize = new Vector2(Screen.width*5, Screen.height*5);

@@ -8,21 +8,29 @@ public class TurnManager : MonoBehaviour
 {
     public bool nextTurnPlayer;
     public int currentPlayerIndex = 0;
+    [Header("Player")]
     [SerializeField] GameObject playerPrefab;
     [SerializeField] Transform[] playerStartPosition;
     [SerializeField] Color[] playerColor;
+
+    [Header("PlayerButton")]
+    [SerializeField] GameObject playerButtonPrefab;
+    [SerializeField] Transform[] playerButtonStartPosition;
+    //[SerializeField] Color[] playerButtonColor;
 
     Dice dice;
     GameObject currentPlayer;
     List<GameObject> players = new List<GameObject>();
     List<int> diceValues = new List<int>();
     PlayerMovement playerMovement;
+    GameManagerUI gameManagerUI;
 
     private void Awake()
     {
         Debug.Log("Numero de jugadores: " + PlayerPrefs.GetInt("NumberPlayers"));
         for(int i = 0; i< PlayerPrefs.GetInt("NumberPlayers"); i++)
         {
+            #region Player
             GameObject clonePrefab = Instantiate(playerPrefab, playerStartPosition[i]);
             clonePrefab.GetComponent<Renderer>().material.color = playerColor[i];
             clonePrefab.transform.localScale = new Vector3(5f, 0.1f, 5f);
@@ -31,10 +39,18 @@ public class TurnManager : MonoBehaviour
             clonePrefab.GetComponent<PlayerMovement>().playerID = newID;
             Debug.Log("Id para del prefab: " + clonePrefab.GetComponent<PlayerMovement>().playerID);
             clonePrefab.GetComponentInChildren<TextMeshProUGUI>().text = newID;
+            #endregion
+            #region Player Button
+            GameObject cloneButtonPrefab = Instantiate(playerButtonPrefab, playerButtonStartPosition[i]);
+            //cloneButtonPrefab.GetComponent<Image>().color = playerColor[1];
+            //No funciona
+            #endregion
         }
         currentPlayer = GameObject.FindGameObjectWithTag("Player");
         dice = GameObject.FindGameObjectWithTag("Dice").
             GetComponent<Dice>();
+        gameManagerUI = GameObject.FindGameObjectWithTag("GameManagerUI")
+            .GetComponent<GameManagerUI>();
     }
     void Start()
     {
@@ -78,6 +94,7 @@ public class TurnManager : MonoBehaviour
                 if (currentPlayerIndex >= players.Count)
                 {
                     currentPlayerIndex = 0;
+                    gameManagerUI.StartAnimatingRound();
                     Debug.Log("-----Nueva Ronda-----");
                 }
             }
@@ -95,6 +112,7 @@ public class TurnManager : MonoBehaviour
                     if (currentPlayerIndex >= players.Count)
                     {
                         currentPlayerIndex = 0;
+                        gameManagerUI.StartAnimatingRound();
                         Debug.Log("-----Nueva Ronda-----");
                     }
                 }
@@ -113,10 +131,10 @@ public class TurnManager : MonoBehaviour
             int diceA, diceB;
             do
             {
-                //diceA = dice.RollDice();
-                //diceB = dice.RollDice();
-                diceA = Random.Range(1, 6);
-                diceB = Random.Range(1, 6);
+                diceA = dice.RollDice();
+                diceB = dice.RollDice();
+                //diceA = Random.Range(1, 6);
+                //diceB = Random.Range(1, 6);
             } while (diceA == diceB);
             Debug.Log("Player 1 roll ->" + diceA);
             Debug.Log("Player 2 roll ->" + diceB);

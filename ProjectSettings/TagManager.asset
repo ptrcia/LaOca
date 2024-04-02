@@ -9,6 +9,7 @@ TagManager:
   - GameRules
   - TurnManager
   - PauseMenu
+  - GameManagerUI
   layers:
   - Default
   - TransparentFX
