@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TurnManager : MonoBehaviour
 {
@@ -12,18 +13,18 @@ public class TurnManager : MonoBehaviour
     [SerializeField] GameObject playerPrefab;
     [SerializeField] Transform[] playerStartPosition;
     [SerializeField] Color[] playerColor;
-
     [Header("PlayerButton")]
+    public GameObject cloneButtonPrefab;
     [SerializeField] GameObject playerButtonPrefab;
     [SerializeField] Transform[] playerButtonStartPosition;
-    //[SerializeField] Color[] playerButtonColor;
-
-    Dice dice;
-    GameObject currentPlayer;
+   
+    public GameObject currentPlayer;
     List<GameObject> players = new List<GameObject>();
     List<int> diceValues = new List<int>();
+
     PlayerMovement playerMovement;
     GameManagerUI gameManagerUI;
+    Dice dice;
 
     private void Awake()
     {
@@ -40,10 +41,13 @@ public class TurnManager : MonoBehaviour
             Debug.Log("Id para del prefab: " + clonePrefab.GetComponent<PlayerMovement>().playerID);
             clonePrefab.GetComponentInChildren<TextMeshProUGUI>().text = newID;
             #endregion
+
             #region Player Button
-            GameObject cloneButtonPrefab = Instantiate(playerButtonPrefab, playerButtonStartPosition[i]);
-            //cloneButtonPrefab.GetComponent<Image>().color = playerColor[1];
-            //No funciona
+            cloneButtonPrefab = Instantiate(playerButtonPrefab, playerButtonStartPosition[i]);
+            cloneButtonPrefab.GetComponent<Image>().color = new Color(playerColor[i].r, playerColor[i].g, playerColor[i].b, 1f);
+            string newIDButton = "Player " + (i + 1).ToString();
+            cloneButtonPrefab.GetComponentInChildren<TextMeshProUGUI>().text = newIDButton;
+            cloneButtonPrefab.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
             #endregion
         }
         currentPlayer = GameObject.FindGameObjectWithTag("Player");
@@ -82,6 +86,7 @@ public class TurnManager : MonoBehaviour
 
             currentPlayer = players[currentPlayerIndex];
             Debug.Log("Turno del -> " + currentPlayer.GetComponent<PlayerMovement>().playerID);
+            gameManagerUI.CurrentTurnAnimation(currentPlayer);//EN PROCESO
 
             Debug.Log("no playable turns : " + currentPlayer.GetComponent<PlayerMovement>().noPlayableTurns);
 

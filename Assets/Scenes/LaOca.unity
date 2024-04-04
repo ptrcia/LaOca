@@ -1556,6 +1556,37 @@ MonoBehaviour:
   currentPlayersInCell: 0
   playersInCell: []
   playersObjectsInCell: []
+--- !u!1 &113528432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 113528433}
+  m_Layer: 0
+  m_Name: pruabposition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &113528433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113528432}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.956, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 677600696}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &132681542
 GameObject:
   m_ObjectHideFlags: 0
@@ -4824,7 +4855,8 @@ Transform:
   m_LocalPosition: {x: -1.19, y: 1.46, z: 0.7}
   m_LocalScale: {x: 0.56606394, y: 0.56606394, z: 0.56606394}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 113528433}
   m_Father: {fileID: 1795196594}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &677600697
@@ -14471,6 +14503,15 @@ MonoBehaviour:
   startButton: {fileID: 1024802902}
   newRoundPanel: {fileID: 761476801}
   targetPosition: {x: 0, y: 200, z: 0}
+  playerButtonPrefab: {fileID: 1144770228363965477, guid: d5d9d5a4e4fd7d84f9208c56ad635ecc, type: 3}
+  playerButtonStartPosition:
+  - {fileID: 686140683}
+  - {fileID: 51742894}
+  - {fileID: 837231567}
+  - {fileID: 1498464925}
+  objetoprueba: {fileID: 1434378505985301507, guid: d1b078ff57d26f44b8ffd543ffdd6629, type: 3}
+  objetopruebaposicion:
+  - {fileID: 113528433}
 --- !u!1 &2146162719
 GameObject:
   m_ObjectHideFlags: 0
@@ -14626,6 +14667,10 @@ PrefabInstance:
     - target: {fileID: 1144770228363965477, guid: d5d9d5a4e4fd7d84f9208c56ad635ecc, type: 3}
       propertyPath: m_Name
       value: Player1Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 1144770228363965477, guid: d5d9d5a4e4fd7d84f9208c56ad635ecc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3653372712752367186, guid: d5d9d5a4e4fd7d84f9208c56ad635ecc, type: 3}
       propertyPath: m_Pivot.x

@@ -65,8 +65,20 @@ public class PlayerMovement : MonoBehaviour
         }
         Debug.Log("CurrentCell: " + currentCell);
         int diceResult = dice.RollDice();
-        currentCell = currentCell + diceResult;   //////////////
+        //currentCell = currentCell + diceResult;   //////////////
+        
+
         Debug.Log("Dado:" + diceResult);
+        for(int i = 0; i < diceResult; i++)
+        {
+            currentCell++;
+            //corrutina
+            //StartMovementAnimation(); NE PROCESOOOO
+            Debug.Log(currentCell);
+        }
+        
+        
+        
         gameManagerUI.AnimatingDiceImage();
         transform.position = CellManager.instance.cells[currentCell].position; //ATENCION
         //CellArragement();
@@ -179,6 +191,32 @@ public class PlayerMovement : MonoBehaviour
 
 
 
+    #endregion
+
+    #region Movement Animation
+    public void StartMovementAnimation() //Cell to cell
+    {
+        StartCoroutine(nameof(MovementAnimation));
+    }
+    IEnumerator MovementAnimation() //EN PROCWASO
+    {
+        float duration = 0.5f; // Duración de la animación de salto
+        AnimationCurve curve = new AnimationCurve(); // Curva de animación de salto
+        //curve = new AnimationCurve();
+        // Punto medio entre A y B
+        Vector3 midPoint = transform.position / 2f;
+
+        Sequence movementSequence = DOTween.Sequence();
+        movementSequence.Append(transform.DOMove(midPoint, duration / 2f)
+            .SetEase(Ease.OutQuad));
+        movementSequence.Append(transform.DOMove(transform.position, duration / 2f)
+            .SetEase(Ease.InQuad));
+        movementSequence.Play();
+
+        yield return
+        transform.DOMove(transform.position, duration).SetEase(curve)
+                .WaitForCompletion();
+    }
     #endregion
 }
 
