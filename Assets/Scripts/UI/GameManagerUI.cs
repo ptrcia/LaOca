@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class GameManagerUI : MonoBehaviour
 {
+    [Header("Dice")]
     public RectTransform diceImage;
+    Dice dice;
 
     [Header("Rules Button")]
     [SerializeField] RectTransform rulesButton;
@@ -32,7 +34,8 @@ public class GameManagerUI : MonoBehaviour
 
     private void Awake()
     {
-        
+        dice = GameObject.FindGameObjectWithTag("Dice").
+            GetComponent<Dice>();
         turnManager = GameObject.FindGameObjectWithTag("TurnManager").
             GetComponent<TurnManager>();
         //cloneButtonPrefabAnimation = turnManager.cloneButtonPrefab.anchoredPosition.x; //coge el ultimo
@@ -69,17 +72,16 @@ public class GameManagerUI : MonoBehaviour
     }
     IEnumerator AnimateRound()
     {
-        //desactivar el click dek dado
-        //can roll dice?
+        dice.canRollDice = false;
         newRoundPanel.SetActive(true);       
         roundTransform.DOLocalMove(targetPosition, duration)
             .SetEase(Ease.OutBounce);
         yield return new WaitForSeconds(2);
         roundTransform.DOLocalMove(new Vector3(0, -800, 0), duration)
             .SetEase(Ease.OutBounce);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         newRoundPanel.SetActive(false);
-        //activar el click del dado I GUESS??
+        dice.canRollDice = true;
     }
     /*
     public void CurrentTurnAnimation(GameObject currentPlayer) //EN PROCESO
