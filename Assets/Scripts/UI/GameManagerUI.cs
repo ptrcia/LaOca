@@ -7,6 +7,14 @@ using UnityEngine;
 public class GameManagerUI : MonoBehaviour
 {
     public RectTransform diceImage;
+
+    [Header("Rules Button")]
+    [SerializeField] RectTransform rulesButton;
+    RectTransform rulesButtonOriginalTransform;
+    float originalLeft;
+    public bool isOpen = false;
+
+    [Header("Other")]
     [SerializeField] GameObject startButton;
     [SerializeField] GameObject newRoundPanel;
     //[SerializeField] private GameObject currentPlayerTurn;
@@ -16,9 +24,10 @@ public class GameManagerUI : MonoBehaviour
     Vector2 screenSizeZero;
     public float duration = 1f;
 
+    [Header("ButtonPlayer")]
     //List<GameObject> cloneButtonPrefabAnimation = new List<GameObject>();
-    GameObject cloneButtonPrefabAnimation;
-    Vector3 cloneButtonPrefabAnimationOriginalScale;
+    RectTransform cloneButtonPrefabAnimation;
+    RectTransform cloneButtonPrefabAnimationOriginalPosition;
     TurnManager turnManager;
 
     private void Awake()
@@ -26,7 +35,7 @@ public class GameManagerUI : MonoBehaviour
         
         turnManager = GameObject.FindGameObjectWithTag("TurnManager").
             GetComponent<TurnManager>();
-        cloneButtonPrefabAnimation = turnManager.cloneButtonPrefab; //coge el ultimo
+        //cloneButtonPrefabAnimation = turnManager.cloneButtonPrefab.anchoredPosition.x; //coge el ultimo
 
         initialRectTransform = startButton.GetComponent<RectTransform>();
         roundTransform = newRoundPanel.GetComponent<RectTransform>();
@@ -35,12 +44,14 @@ public class GameManagerUI : MonoBehaviour
     }
     private void Start()
     {
-        cloneButtonPrefabAnimationOriginalScale = cloneButtonPrefabAnimation.transform.localScale;
+        //cloneButtonPrefabAnimationOriginalScale = cloneButtonPrefabAnimation.transform.localScale;
+        originalLeft = rulesButton.anchoredPosition.x;
+        rulesButtonOriginalTransform = rulesButton;
         screenSizeZero = new Vector2(0, 0);
     }
     private void Update()
     {
-        CurrentTurnAnimation(turnManager.currentPlayer);
+        //CurrentTurnAnimation(turnManager.currentPlayer);
     }
     public void AnimatingDiceImage()
     {
@@ -58,6 +69,8 @@ public class GameManagerUI : MonoBehaviour
     }
     IEnumerator AnimateRound()
     {
+        //desactivar el click dek dado
+        //can roll dice?
         newRoundPanel.SetActive(true);       
         roundTransform.DOLocalMove(targetPosition, duration)
             .SetEase(Ease.OutBounce);
@@ -66,21 +79,40 @@ public class GameManagerUI : MonoBehaviour
             .SetEase(Ease.OutBounce);
         yield return new WaitForSeconds(2);
         newRoundPanel.SetActive(false);
+        //activar el click del dado I GUESS??
     }
-
+    /*
     public void CurrentTurnAnimation(GameObject currentPlayer) //EN PROCESO
     {
         //Debug.Log(cloneButtonPrefabAnimation.GetComponentInChildren<TextMeshProUGUI>().text + currentPlayer.GetComponent<PlayerMovement>().playerID);
         if (cloneButtonPrefabAnimation.GetComponentInChildren<TextMeshProUGUI>().text == currentPlayer.GetComponent<PlayerMovement>().playerID)
         {
-            cloneButtonPrefabAnimation.transform.DOScale(new Vector3(2, 1, 0), duration)
-            .SetEase(Ease.InElastic)
+            cloneButtonPrefabAnimation.rectTransform.DOAnchorPos
+                (new Vector2(+5, cloneButtonPrefabAnimation.rectTransform.anchoredPosition.y), duration)
+            .SetEase(Ease.InBounce)
             .OnComplete(() =>
             {
-                cloneButtonPrefabAnimation.transform.DOScale(cloneButtonPrefabAnimationOriginalScale, duration)
-                    .SetEase(Ease.InElastic);
+                cloneButtonPrefabAnimation.rectTransform.DOAnchorPos
+                (new Vector2(- 5, cloneButtonPrefabAnimation.rectTransform.anchoredPosition.y), duration)
+                    .SetEase(Ease.InBounce);
             });
         }
+    }*/
+
+    //REGLAS
+    public void RulesButton()
+    {
+        if (rulesButtonOriginalTransform.anchoredPosition.x == originalLeft)
+        {
+            isOpen= true;
+            rulesButton.DOAnchorPos(new Vector2(-115, rulesButtonOriginalTransform.anchoredPosition.y), duration).SetEase(Ease.InBounce);
+        }
+        else
+        {
+            isOpen = false;
+            rulesButton.DOAnchorPos(new Vector2(originalLeft, rulesButtonOriginalTransform.anchoredPosition.y), duration).SetEase(Ease.InBounce);
+        }
+        
     }
 
     private void ClearScreenButton()
@@ -89,3 +121,4 @@ public class GameManagerUI : MonoBehaviour
     }
 
 }
+    

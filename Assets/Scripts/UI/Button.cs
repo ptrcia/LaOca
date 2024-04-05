@@ -1,21 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 //using UnityEngine.UI;
 
-public class Button : MonoBehaviour
+public class Button : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] GameObject rulesPanel;
+    [SerializeField] GameObject specificRule;
+    GameManagerUI gameManagerUI;
 
-    private void OnButtonClick()
+    private void Awake()
     {
-        if(rulesPanel != null && rulesPanel.activeInHierarchy)
+        gameManagerUI = GameObject.FindGameObjectWithTag("GameManagerUI")
+            .GetComponent<GameManagerUI>();
+    }
+
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (gameManagerUI.isOpen == true)
         {
-            rulesPanel.SetActive(false);
+            Debug.Log("entered?");
+            specificRule.SetActive(true);
         }
-        else if(rulesPanel != null && !rulesPanel.activeInHierarchy)
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (gameManagerUI.isOpen == true)
         {
-            rulesPanel.SetActive(true);
+            specificRule.SetActive(false);
         }
     }
 }

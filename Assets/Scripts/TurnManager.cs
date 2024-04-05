@@ -9,18 +9,17 @@ public class TurnManager : MonoBehaviour
 {
     public bool nextTurnPlayer;
     public int currentPlayerIndex = 0;
-    [Header("Player")]
+    [Header("PlayerPrefab")]
     [SerializeField] GameObject playerPrefab;
     [SerializeField] Transform[] playerStartPosition;
     [SerializeField] Color[] playerColor;
-    [Header("PlayerButton")]
+    [Header("PlayerButtonPrefab")]
     public GameObject cloneButtonPrefab;
     [SerializeField] GameObject playerButtonPrefab;
     [SerializeField] Transform[] playerButtonStartPosition;
-   
+    [Header("PlayerList")]
     public GameObject currentPlayer;
     List<GameObject> players = new List<GameObject>();
-    List<int> diceValues = new List<int>();
 
     PlayerMovement playerMovement;
     GameManagerUI gameManagerUI;
@@ -86,7 +85,7 @@ public class TurnManager : MonoBehaviour
 
             currentPlayer = players[currentPlayerIndex];
             Debug.Log("Turno del -> " + currentPlayer.GetComponent<PlayerMovement>().playerID);
-            gameManagerUI.CurrentTurnAnimation(currentPlayer);//EN PROCESO
+            //gameManagerUI.CurrentTurnAnimation(currentPlayer);//EN PROCESO
 
             Debug.Log("no playable turns : " + currentPlayer.GetComponent<PlayerMovement>().noPlayableTurns);
 

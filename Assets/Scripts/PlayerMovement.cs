@@ -6,12 +6,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     Dice dice;
-    //GameManager gameManager;
     GameRules gameRules;
-    //PauseMenu pauseMenu;
     GameManagerUI gameManagerUI;
 
-    //int playersInCell;
+    //[SerializeField] GameObject playerButton;
 
     public int currentCell;
     public int noPlayableTurns = 0 ;
@@ -22,19 +20,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        //gameManager = GameObject.FindGameObjectWithTag("GameManager").
-            //GetComponent<GameManager>();
         gameRules = GameObject.FindGameObjectWithTag("GameRules").
             GetComponent<GameRules>();
         dice = GameObject.FindGameObjectWithTag("Dice").
             GetComponent<Dice>();
-        //pauseMenu = GameObject.FindGameObjectWithTag("PauseMenu")
-            //.GetComponent<PauseMenu>();
         gameManagerUI = GameObject.FindGameObjectWithTag("GameManagerUI")
             .GetComponent<GameManagerUI>();
     }
     void Start()
     {
+        //playerButton = GameObject.FindGameObjectWithTag("PlayerButton");
         Debug.Log("Casilla Actual: " + currentCell);
         gameManagerUI.diceImage.localScale = Vector3.zero;
     }
@@ -65,9 +60,7 @@ public class PlayerMovement : MonoBehaviour
         }
         Debug.Log("CurrentCell: " + currentCell);
         int diceResult = dice.RollDice();
-        //currentCell = currentCell + diceResult;   //////////////
         
-
         Debug.Log("Dado:" + diceResult);
         for(int i = 0; i < diceResult; i++)
         {
@@ -76,12 +69,9 @@ public class PlayerMovement : MonoBehaviour
             //StartMovementAnimation(); NE PROCESOOOO
             Debug.Log(currentCell);
         }
-        
-        
-        
+          
         gameManagerUI.AnimatingDiceImage();
         transform.position = CellManager.instance.cells[currentCell].position; //ATENCION
-        //CellArragement();
         Debug.Log("CurrentCell tras movimiento-> " + currentCell);
         Debug.Log("not playable turns befor checking "+noPlayableTurns);
         gameRules.CheckSpecialCell(this, this.gameObject);
