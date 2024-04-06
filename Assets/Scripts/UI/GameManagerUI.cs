@@ -17,20 +17,14 @@ public class GameManagerUI : MonoBehaviour
     public bool isOpen = false;
 
     [Header("Other")]
+    TurnManager turnManager;
     [SerializeField] GameObject startButton;
     [SerializeField] GameObject newRoundPanel;
-    //[SerializeField] private GameObject currentPlayerTurn;
     [SerializeField] Vector3 targetPosition;
     RectTransform initialRectTransform;
     RectTransform roundTransform;
     Vector2 screenSizeZero;
     public float duration = 1f;
-
-    [Header("ButtonPlayer")]
-    //List<GameObject> cloneButtonPrefabAnimation = new List<GameObject>();
-    RectTransform cloneButtonPrefabAnimation;
-    RectTransform cloneButtonPrefabAnimationOriginalPosition;
-    TurnManager turnManager;
 
     private void Awake()
     {
@@ -38,7 +32,6 @@ public class GameManagerUI : MonoBehaviour
             GetComponent<Dice>();
         turnManager = GameObject.FindGameObjectWithTag("TurnManager").
             GetComponent<TurnManager>();
-        //cloneButtonPrefabAnimation = turnManager.cloneButtonPrefab.anchoredPosition.x; //coge el ultimo
 
         initialRectTransform = startButton.GetComponent<RectTransform>();
         roundTransform = newRoundPanel.GetComponent<RectTransform>();
@@ -47,15 +40,11 @@ public class GameManagerUI : MonoBehaviour
     }
     private void Start()
     {
-        //cloneButtonPrefabAnimationOriginalScale = cloneButtonPrefabAnimation.transform.localScale;
         originalLeft = rulesButton.anchoredPosition.x;
         rulesButtonOriginalTransform = rulesButton;
         screenSizeZero = new Vector2(0, 0);
     }
-    private void Update()
-    {
-        //CurrentTurnAnimation(turnManager.currentPlayer);
-    }
+
     public void AnimatingDiceImage()
     {
         diceImage.DOScale(new Vector3(0.5f, 0.5f, diceImage.localScale.z), 1f)
@@ -83,25 +72,20 @@ public class GameManagerUI : MonoBehaviour
         newRoundPanel.SetActive(false);
         dice.canRollDice = true;
     }
-    /*
-    public void CurrentTurnAnimation(GameObject currentPlayer) //EN PROCESO
+    
+    public void CurrentTurnAnimation(RectTransform currentButton) 
     {
-        //Debug.Log(cloneButtonPrefabAnimation.GetComponentInChildren<TextMeshProUGUI>().text + currentPlayer.GetComponent<PlayerMovement>().playerID);
-        if (cloneButtonPrefabAnimation.GetComponentInChildren<TextMeshProUGUI>().text == currentPlayer.GetComponent<PlayerMovement>().playerID)
-        {
-            cloneButtonPrefabAnimation.rectTransform.DOAnchorPos
-                (new Vector2(+5, cloneButtonPrefabAnimation.rectTransform.anchoredPosition.y), duration)
-            .SetEase(Ease.InBounce)
-            .OnComplete(() =>
-            {
-                cloneButtonPrefabAnimation.rectTransform.DOAnchorPos
-                (new Vector2(- 5, cloneButtonPrefabAnimation.rectTransform.anchoredPosition.y), duration)
-                    .SetEase(Ease.InBounce);
-            });
-        }
-    }*/
+        currentButton.DOAnchorPos
+            (new Vector2(-10, currentButton.anchoredPosition.y), duration)
+        .SetEase(Ease.InBounce);
+    }
+    public void CurrentTurnAnimationClose(RectTransform currentButton)
+    {
+        currentButton.DOAnchorPos
+            (new Vector2(94.4f, currentButton.anchoredPosition.y), duration)
+            .SetEase(Ease.InBounce);
+    }
 
-    //REGLAS
     public void RulesButton()
     {
         if (rulesButtonOriginalTransform.anchoredPosition.x == originalLeft)
@@ -113,8 +97,7 @@ public class GameManagerUI : MonoBehaviour
         {
             isOpen = false;
             rulesButton.DOAnchorPos(new Vector2(originalLeft, rulesButtonOriginalTransform.anchoredPosition.y), duration).SetEase(Ease.InBounce);
-        }
-        
+        }  
     }
 
     private void ClearScreenButton()

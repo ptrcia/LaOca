@@ -10,11 +10,12 @@ TagManager:
   - TurnManager
   - PauseMenu
   - GameManagerUI
+  - PlayerButton
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - 

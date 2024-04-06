@@ -19,7 +19,13 @@ public class TurnManager : MonoBehaviour
     [SerializeField] Transform[] playerButtonStartPosition;
     [Header("PlayerList")]
     public GameObject currentPlayer;
-    List<GameObject> players = new List<GameObject>();
+    public List<GameObject> players = new List<GameObject>();
+    [Header("ButtonList")]
+    public GameObject currentButton;
+    RectTransform currentButtonRectTransform;
+    RectTransform originalButtonRectTransform;
+    List<GameObject> buttonPlayerList = new List<GameObject>();
+    int rename = 1;
 
     PlayerMovement playerMovement;
     GameManagerUI gameManagerUI;
@@ -43,6 +49,7 @@ public class TurnManager : MonoBehaviour
 
             #region Player Button
             cloneButtonPrefab = Instantiate(playerButtonPrefab, playerButtonStartPosition[i]);
+            //cloneButtonPrefab.name = "123";
             cloneButtonPrefab.GetComponent<Image>().color = new Color(playerColor[i].r, playerColor[i].g, playerColor[i].b, 1f);
             string newIDButton = "Player " + (i + 1).ToString();
             cloneButtonPrefab.GetComponentInChildren<TextMeshProUGUI>().text = newIDButton;
@@ -57,12 +64,22 @@ public class TurnManager : MonoBehaviour
     }
     void Start()
     {
-        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-        //Debug.Log(playerObjects);
+        //playerList
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player"); 
         foreach (GameObject player in playerObjects)
         {
             players.Add(player);
             Debug.Log("Lista de Jugadores:" + player.GetComponent<PlayerMovement>().playerID);
+        }
+        //buttonPlayerList
+        GameObject[] playerButtons = GameObject.FindGameObjectsWithTag("PlayerButton");
+        foreach(GameObject button in playerButtons)
+        {
+            //rename = 1;
+            button.name = "PlayerButton" + rename;
+            buttonPlayerList.Add(button);
+            Debug.Log(button.ToString());
+            rename++;
         }
         StartGame();
     }
@@ -70,7 +87,7 @@ public class TurnManager : MonoBehaviour
     void StartGame()
     {
         Debug.Log("TIRAR PARA DECIDIR ORDEN");
-        PlayerOrderAutomatic();
+        PlayerOrderAutomatic2();
         //StartCoroutine(PlayerOrder());
         //PlayerOrder();
         StartCoroutine(PlayerTurn());
@@ -84,8 +101,19 @@ public class TurnManager : MonoBehaviour
             nextTurnPlayer = true;
 
             currentPlayer = players[currentPlayerIndex];
+            currentButton = buttonPlayerList[currentPlayerIndex];
+
+            currentButtonRectTransform = currentButton.GetComponent<RectTransform>();
+
+            Debug.Log("Current Player Index: " + currentPlayerIndex);
+            Debug.Log("Current Player: " + currentPlayer.GetComponent<PlayerMovement>().playerID);
+            Debug.Log("Button Index: " + players.IndexOf(currentPlayer));
+            Debug.Log("Current Button: " + currentButton.name);
+
             Debug.Log("Turno del -> " + currentPlayer.GetComponent<PlayerMovement>().playerID);
-            //gameManagerUI.CurrentTurnAnimation(currentPlayer);//EN PROCESO
+            Debug.Log("Con la etiqueta ->" + currentButton.name);
+
+            gameManagerUI.CurrentTurnAnimation(currentButtonRectTransform);
 
             Debug.Log("no playable turns : " + currentPlayer.GetComponent<PlayerMovement>().noPlayableTurns);
 
@@ -110,7 +138,8 @@ public class TurnManager : MonoBehaviour
                 {
                     yield return null; 
                 }
-                if (nextTurnPlayer) { 
+                if (nextTurnPlayer) {
+                    gameManagerUI.CurrentTurnAnimationClose(currentButtonRectTransform);
                     currentPlayerIndex++;
 
                     if (currentPlayerIndex >= players.Count)
@@ -128,8 +157,6 @@ public class TurnManager : MonoBehaviour
     #region Order Automatic
     void PlayerOrderAutomatic()
     {
-        Debug.Log("Ejecutando players order automatic");
-        //players.Sort((a, b) => dice.RollDice().CompareTo(dice.RollDice()));
         players.Sort((a, b) =>
         {
             int diceA, diceB;
@@ -142,17 +169,47 @@ public class TurnManager : MonoBehaviour
             } while (diceA == diceB);
             Debug.Log("Player 1 roll ->" + diceA);
             Debug.Log("Player 2 roll ->" + diceB);
+
             return diceB.CompareTo(diceA);
         });
         
         Debug.Log("Orden de los jugadores por turnos:");
         for (int i = 0; i < players.Count; i++)
         {
-            Debug.Log("Turno " + (i + 1) + ": " + players[i].GetComponent<PlayerMovement>().playerID);
+            Debug.Log("Turno " + (i + 1) + ": " + players[i].GetComponent<PlayerMovement>().playerID );
         }
     }
     #endregion
 
+    void PlayerOrderAutomatic2()
+    {
+        Dictionary<GameObject, int> diceResults = new Dictionary<GameObject, int>();
+
+        foreach (GameObject player in players)
+        {
+            int diceResult;
+            do
+            {
+                diceResult = dice.RollDice();
+            } while (diceResults.ContainsValue(diceResult));
+            diceResults.Add(player, diceResult);
+
+            Debug.Log(player.GetComponent<PlayerMovement>().playerID + " roll -> " + diceResult);
+        }
+
+        players.Sort((a, b) =>
+        {
+            int indexA = diceResults[a];
+            int indexB = diceResults[b];
+            return indexB.CompareTo(indexA);
+        });
+
+        Debug.Log("Orden de los jugadores por turnos:");
+        for (int i = 0; i < players.Count; i++)
+        {
+            Debug.Log("Turno " + (i + 1) + ": " + players[i].GetComponent<PlayerMovement>().playerID);
+        }
+    }
     #region Order by Rolling
     void PlayerOrder()
     {

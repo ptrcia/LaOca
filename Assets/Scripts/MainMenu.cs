@@ -42,26 +42,26 @@ public class MainMenu : MonoBehaviour
                 numberPlayers = 1;
                 PlayerPrefs.SetInt("NumberPlayers", numberPlayers);
                 //añadir un jugador
-                Debug.Log("Ha selecionado modo juego "+optionPlayers+" jugador");
+                //Debug.Log("Ha selecionado modo juego "+optionPlayers+" jugador");
                 break;
             case "2":
                 numberPlayers = 2;
                 PlayerPrefs.SetInt("NumberPlayers", numberPlayers);
                 //añadir dos jugadores
-                Debug.Log("Ha selecionado modo juego " + optionPlayers + " jugador");
+                //Debug.Log("Ha selecionado modo juego " + optionPlayers + " jugador");
                 break;
             case "3":
                 numberPlayers = 3;
                 PlayerPrefs.SetInt("NumberPlayers", numberPlayers);
 
                 //añadir 3 jugadores
-                Debug.Log("Ha selecionado modo juego " + optionPlayers + " jugador");
+                //Debug.Log("Ha selecionado modo juego " + optionPlayers + " jugador");
                 break;
             case "4":
                 numberPlayers = 4;
                 PlayerPrefs.SetInt("NumberPlayers", numberPlayers);
                 //añadir cuatro jugadores
-                Debug.Log("Ha selecionado modo juego " + optionPlayers + " jugador");
+                //Debug.Log("Ha selecionado modo juego " + optionPlayers + " jugador");
                 break;
         }
     }
@@ -73,7 +73,7 @@ public class MainMenu : MonoBehaviour
         {
             case "Classic":
                 //cambiar el tablero y las reglas y supongo que ya la escena, no?
-                Debug.Log("Has selecionado la tabla " + optionBoard);
+                //Debug.Log("Has selecionado la tabla " + optionBoard);
                 break;
 
         }
@@ -85,11 +85,11 @@ public class MainMenu : MonoBehaviour
         {
             case "English":
                 //cosas
-                Debug.Log("Has selecionado el idioma " + optionLanguage);
+                //Debug.Log("Has selecionado el idioma " + optionLanguage);
                 break;
             case "Spanish":
                 //cosas en español
-                Debug.Log("Has selecionado el idioma " + optionLanguage);
+                //Debug.Log("Has selecionado el idioma " + optionLanguage);
                 break;
 
         }
