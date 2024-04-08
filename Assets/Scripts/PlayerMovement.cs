@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     Dice dice;
     GameRules gameRules;
     GameManagerUI gameManagerUI;
+    CellContainer cellContainer;
 
     //[SerializeField] GameObject playerButton;
 
@@ -33,7 +34,19 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("Casilla Actual: " + currentCell);
         gameManagerUI.diceImage.localScale = Vector3.zero;
     }
-  
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        cellContainer = collision.gameObject.GetComponent<CellContainer>();
+        if (collision.gameObject.CompareTag("Cell"))
+        {
+            if(cellContainer.playersRegistry.Count != cellContainer.playersRegistry.Count)
+            {
+                //NO TENGO NI IDEA AYUDANME
+            }
+        }
+    }
+
     void Move()
         {
             diceValue = dice.RollDice();

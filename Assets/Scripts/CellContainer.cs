@@ -9,6 +9,7 @@ public class CellContainer : MonoBehaviour
     public int currentPlayersInCell;
     public List<string> playersInCell = new List<string>();
     public List<GameObject> playersObjectsInCell = new List<GameObject>();
+    public List<GameObject> playersRegistry = new List<GameObject>(); //Players that had collide from start to finish
 
     PlayerMovement playerMovementCtrl;
 
@@ -20,6 +21,7 @@ public class CellContainer : MonoBehaviour
         {
             currentPlayersInCell++;
             playersObjectsInCell.Add(collision.gameObject);
+            playersRegistry.Add(collision.gameObject);  // IGUESSSS
             //playersObjectsInCell.Add(playerMovementCtrl.playerID);
             Debug.Log("Enter List  of the "+currentPlayersInCell+" players in " + gameObject.name + ": " + string.Join(", ", playersInCell));
             playerMovementCtrl.CellArragement(currentPlayersInCell, playersObjectsInCell);

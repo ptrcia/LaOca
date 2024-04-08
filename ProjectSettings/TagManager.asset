@@ -11,6 +11,7 @@ TagManager:
   - PauseMenu
   - GameManagerUI
   - PlayerButton
+  - Cell
   layers:
   - Default
   - TransparentFX

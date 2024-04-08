@@ -7,6 +7,7 @@ public class GameRules : MonoBehaviour
 {
     GameManager gameManager;
     TurnManager turnManager;
+    CellContainer cellContainer;
 
     int firstBridge = 5;
     int secondBridge = 11;
@@ -24,6 +25,7 @@ public class GameRules : MonoBehaviour
         turnManager = GameObject.FindGameObjectWithTag("TurnManager").
             GetComponent<TurnManager>();
     }
+
     public void CheckSpecialCell(PlayerMovement _playerMovement, GameObject player)
     {
         Debug.Log("CuRRENT CELL PLAYER   " + _playerMovement.currentCell);
@@ -60,7 +62,7 @@ public class GameRules : MonoBehaviour
                 break;
             case 55:
                 Debug.Log("Carcel");
-                //Cárcel();
+                Cárcel();
                 break;
             case 57:
                 Debug.Log("Calavera");
@@ -78,60 +80,79 @@ public class GameRules : MonoBehaviour
         }
         void Oca()
         {
-            if (_playerMovement.currentCell != 57)
+            Dictionary<int, int> cellOcaTransitions = new Dictionary<int, int>()
             {
-                if (_playerMovement.currentCell == 4)
-                {
-                    _playerMovement.currentCell = 8;
-                    player.transform.position = CellManager.instance.cells[8].position;
-                }
-                else if (_playerMovement.currentCell == 8)
-                {
-                    _playerMovement.currentCell = 13;
-                    player.transform.position = CellManager.instance.cells[13].position;
-                }
-                else if (_playerMovement.currentCell == 13)
-                {
-                    _playerMovement.currentCell = 17;
-                    player.transform.position = CellManager.instance.cells[17].position;
-                }
-                else if (_playerMovement.currentCell == 17)
-                {
-                    _playerMovement.currentCell = 22;
-                    player.transform.position = CellManager.instance.cells[22].position;
-                }
-                else if (_playerMovement.currentCell == 22)
-                {
-                    _playerMovement.currentCell = 26;
-                    player.transform.position = CellManager.instance.cells[26].position;
-                }
-                else if (_playerMovement.currentCell == 26)
-                {
-                    _playerMovement.currentCell = 31;
-                    player.transform.position = CellManager.instance.cells[31].position;
-                }
-                else if (_playerMovement.currentCell == 31)
-                {
-                    _playerMovement.currentCell = 35;
-                    player.transform.position = CellManager.instance.cells[35].position;
-                }
-                else if (_playerMovement.currentCell == 35)
-                {
-                    _playerMovement.currentCell = 40;
-                    player.transform.position = CellManager.instance.cells[40].position;
-                }
-                else if (_playerMovement.currentCell == 40)
-                {
-                    _playerMovement.currentCell = 44;
-                    player.transform.position = CellManager.instance.cells[44].position;
-                }
-                else if (_playerMovement.currentCell == 48)
-                {
-                    _playerMovement.currentCell = 57;
-                    player.transform.position = CellManager.instance.cells[57].position;
-                }
+                { 4, 8 },
+                { 8, 13 },
+                { 13, 17 },
+                { 17, 22 },
+                { 22, 26 },
+                { 26, 31 },
+                { 31, 35 },
+                { 35, 40 },
+                { 40, 44 },
+                { 48, 57 }
+            };
+            //if (_playerMovement.currentCell != 57)
+            //{
+            //    if (_playerMovement.currentCell == 4)
+            //    {
+            //        _playerMovement.currentCell = 8;
+            //        player.transform.position = CellManager.instance.cells[8].position;
+            //    }
+            //    else if (_playerMovement.currentCell == 8)
+            //    {
+            //        _playerMovement.currentCell = 13;
+            //        player.transform.position = CellManager.instance.cells[13].position;
+            //    }
+            //    else if (_playerMovement.currentCell == 13)
+            //    {
+            //        _playerMovement.currentCell = 17;
+            //        player.transform.position = CellManager.instance.cells[17].position;
+            //    }
+            //    else if (_playerMovement.currentCell == 17)
+            //    {
+            //        _playerMovement.currentCell = 22;
+            //        player.transform.position = CellManager.instance.cells[22].position;
+            //    }
+            //    else if (_playerMovement.currentCell == 22)
+            //    {
+            //        _playerMovement.currentCell = 26;
+            //        player.transform.position = CellManager.instance.cells[26].position;
+            //    }
+            //    else if (_playerMovement.currentCell == 26)
+            //    {
+            //        _playerMovement.currentCell = 31;
+            //        player.transform.position = CellManager.instance.cells[31].position;
+            //    }
+            //    else if (_playerMovement.currentCell == 31)
+            //    {
+            //        _playerMovement.currentCell = 35;
+            //        player.transform.position = CellManager.instance.cells[35].position;
+            //    }
+            //    else if (_playerMovement.currentCell == 35)
+            //    {
+            //        _playerMovement.currentCell = 40;
+            //        player.transform.position = CellManager.instance.cells[40].position;
+            //    }
+            //    else if (_playerMovement.currentCell == 40)
+            //    {
+            //        _playerMovement.currentCell = 44;
+            //        player.transform.position = CellManager.instance.cells[44].position;
+            //    }
+            //    else if (_playerMovement.currentCell == 48)
+            //    {
+            //        _playerMovement.currentCell = 57;
+            //        player.transform.position = CellManager.instance.cells[57].position;
+            //    }
 
-                turnManager.nextTurnPlayer = false;
+            if (cellOcaTransitions.ContainsKey(_playerMovement.currentCell))
+                {
+                    int destinationCell = cellOcaTransitions[_playerMovement.currentCell];
+
+                    _playerMovement.currentCell = destinationCell;
+                    player.transform.position = CellManager.instance.cells[destinationCell].position;
+                    turnManager.nextTurnPlayer = false;
             }
             else if (_playerMovement.currentCell == 57)
             {
@@ -152,7 +173,6 @@ public class GameRules : MonoBehaviour
                 _playerMovement.currentCell = firstBridge;
                 player.transform.position = CellManager.instance.cells[_playerMovement.currentCell].position;
                 turnManager.nextTurnPlayer = false;
-
             }
         }
         void Posada()
@@ -162,10 +182,11 @@ public class GameRules : MonoBehaviour
         void Pozo()
         {
             /*
-            while (player2.currentCell!=31 ||player3.currentCell ...)
+            while (????)
             {
                 _playerMovement.noPlayableTurns ++;
             }
+            _playerMovement.noPlayableTurns = 0;
             */
         }
         void Laberinto()
@@ -176,12 +197,7 @@ public class GameRules : MonoBehaviour
         }
         void Cárcel()
         {
-            /*
-             while(!player2.layerMovement.currentCell != 50 || ...)
-            {
-                _playerMovement.noPlayableTurns ++;
-            }
-             * */
+            _playerMovement.noPlayableTurns = _playerMovement.noPlayableTurns + 2;
         }
         void Dados()
         {
