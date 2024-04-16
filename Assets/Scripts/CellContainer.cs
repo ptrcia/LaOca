@@ -25,6 +25,7 @@ public class CellContainer : MonoBehaviour
             //playersObjectsInCell.Add(playerMovementCtrl.playerID);
             Debug.Log("Enter List  of the "+currentPlayersInCell+" players in " + gameObject.name + ": " + string.Join(", ", playersInCell));
             playerMovementCtrl.CellArragement(currentPlayersInCell, playersObjectsInCell);
+            Debug.Log("REGISTRY: "+playersRegistry.Count);
         }
     }
 

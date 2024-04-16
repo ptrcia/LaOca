@@ -35,17 +35,25 @@ public class PlayerMovement : MonoBehaviour
         gameManagerUI.diceImage.localScale = Vector3.zero;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    /*private void OnCollisionEnter(Collision collision)
     {
+        //esto lo quiero hacer en el pozo, no aquí
         cellContainer = collision.gameObject.GetComponent<CellContainer>();
-        if (collision.gameObject.CompareTag("Cell"))
+        int lastCountWell = 0;
+        //esto tampoco debería valer porque al llegar a la casilla no tiene porque estar en 0
+        //lo actualizo en el update??
+        if (collision.gameObject.CompareTag("Cell") && currentCell == 30)
         {
-            if(cellContainer.playersRegistry.Count != cellContainer.playersRegistry.Count)
+            while(cellContainer.playersRegistry.Count != lastCountWell)
             {
                 //NO TENGO NI IDEA AYUDANME
+                noPlayableTurns++;
             }
+            Debug.Log("La lista ha aumentado");
+            lastCountWell = cellContainer.playersRegistry.Count;
+            //esto no deberia funcionar, porque cada celda tiene una contabilidad distinta
         }
-    }
+    }*/
 
     void Move()
         {
@@ -79,8 +87,8 @@ public class PlayerMovement : MonoBehaviour
         {
             currentCell++;
             //corrutina
-            //StartMovementAnimation(); NE PROCESOOOO
-            Debug.Log(currentCell);
+            //StartMovementAnimation(); 
+            Debug.Log("Cual es la curretn cell dentro del FOR: "+currentCell);
         }
           
         gameManagerUI.AnimatingDiceImage();
@@ -188,25 +196,29 @@ public class PlayerMovement : MonoBehaviour
                 CellManager.instance.cells[currentCell].position.y,
                 CellManager.instance.cells[currentCell].position.z);
         }
+
+        /*
+         ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+System.Collections.Generic.List`1[T].get_Item (System.Int32 index) (at <787acc3c9a4c471ba7d971300105af24>:0)
+PlayerMovement.CellArragement (System.Int32 playersCounter, System.Collections.Generic.List`1[T] players) (at Assets/Scripts/PlayerMovement.cs:186)
+CellContainer.OnCollisionExit (UnityEngine.Collision collision) (at Assets/Scripts/CellContainer.cs:38)
+UnityEngine.Physics:OnSceneContact(PhysicsScene, IntPtr, Int32)
+*/
     }
-
-
-
-
 
     #endregion
 
     #region Movement Animation
-    public void StartMovementAnimation() //Cell to cell
+    public void StartMovementAnimation() 
     {
         StartCoroutine(nameof(MovementAnimation));
     }
     IEnumerator MovementAnimation() //EN PROCWASO
     {
-        float duration = 0.5f; // Duración de la animación de salto
-        AnimationCurve curve = new AnimationCurve(); // Curva de animación de salto
-        //curve = new AnimationCurve();
-        // Punto medio entre A y B
+        float duration = 0.5f; 
+        AnimationCurve curve = new AnimationCurve(); 
+
         Vector3 midPoint = transform.position / 2f;
 
         Sequence movementSequence = DOTween.Sequence();

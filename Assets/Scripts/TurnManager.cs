@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 public class TurnManager : MonoBehaviour
 {
@@ -101,7 +103,8 @@ public class TurnManager : MonoBehaviour
             nextTurnPlayer = true;
 
             currentPlayer = players[currentPlayerIndex];
-            currentButton = buttonPlayerList[currentPlayerIndex];
+            //int playerIndex = players.IndexOf(currentPlayer);
+            currentButton = buttonPlayerList[currentPlayerIndex]; //tiene que tener el mismo index
 
             currentButtonRectTransform = currentButton.GetComponent<RectTransform>();
 
@@ -210,6 +213,8 @@ public class TurnManager : MonoBehaviour
             Debug.Log("Turno " + (i + 1) + ": " + players[i].GetComponent<PlayerMovement>().playerID);
         }
     }
+   
+    
     #region Order by Rolling
     void PlayerOrder()
     {

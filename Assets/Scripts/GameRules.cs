@@ -17,6 +17,8 @@ public class GameRules : MonoBehaviour
 
     int finalCell = 62;
 
+    int lastCountWell = 0;
+
     private void CheckGameObjects()
     {
         gameManager = GameObject.
@@ -93,58 +95,6 @@ public class GameRules : MonoBehaviour
                 { 40, 44 },
                 { 48, 57 }
             };
-            //if (_playerMovement.currentCell != 57)
-            //{
-            //    if (_playerMovement.currentCell == 4)
-            //    {
-            //        _playerMovement.currentCell = 8;
-            //        player.transform.position = CellManager.instance.cells[8].position;
-            //    }
-            //    else if (_playerMovement.currentCell == 8)
-            //    {
-            //        _playerMovement.currentCell = 13;
-            //        player.transform.position = CellManager.instance.cells[13].position;
-            //    }
-            //    else if (_playerMovement.currentCell == 13)
-            //    {
-            //        _playerMovement.currentCell = 17;
-            //        player.transform.position = CellManager.instance.cells[17].position;
-            //    }
-            //    else if (_playerMovement.currentCell == 17)
-            //    {
-            //        _playerMovement.currentCell = 22;
-            //        player.transform.position = CellManager.instance.cells[22].position;
-            //    }
-            //    else if (_playerMovement.currentCell == 22)
-            //    {
-            //        _playerMovement.currentCell = 26;
-            //        player.transform.position = CellManager.instance.cells[26].position;
-            //    }
-            //    else if (_playerMovement.currentCell == 26)
-            //    {
-            //        _playerMovement.currentCell = 31;
-            //        player.transform.position = CellManager.instance.cells[31].position;
-            //    }
-            //    else if (_playerMovement.currentCell == 31)
-            //    {
-            //        _playerMovement.currentCell = 35;
-            //        player.transform.position = CellManager.instance.cells[35].position;
-            //    }
-            //    else if (_playerMovement.currentCell == 35)
-            //    {
-            //        _playerMovement.currentCell = 40;
-            //        player.transform.position = CellManager.instance.cells[40].position;
-            //    }
-            //    else if (_playerMovement.currentCell == 40)
-            //    {
-            //        _playerMovement.currentCell = 44;
-            //        player.transform.position = CellManager.instance.cells[44].position;
-            //    }
-            //    else if (_playerMovement.currentCell == 48)
-            //    {
-            //        _playerMovement.currentCell = 57;
-            //        player.transform.position = CellManager.instance.cells[57].position;
-            //    }
 
             if (cellOcaTransitions.ContainsKey(_playerMovement.currentCell))
                 {
@@ -181,13 +131,15 @@ public class GameRules : MonoBehaviour
         }
         void Pozo()
         {
-            /*
-            while (????)
+            //aqui quiero coger la referencia de la celda con la que estoy colisionando
+            //while(_playerMovement?)
+            while(cellContainer.playersRegistry.Count <= lastCountWell)
             {
-                _playerMovement.noPlayableTurns ++;
+                _playerMovement.noPlayableTurns++;
+
             }
-            _playerMovement.noPlayableTurns = 0;
-            */
+                Debug.Log("La lista ha aumentado");
+                lastCountWell = cellContainer.playersRegistry.Count;
         }
         void Laberinto()
         {
@@ -242,4 +194,5 @@ public class GameRules : MonoBehaviour
             CheckSpecialCell(_playerMovement, CellManager.instance.gameObject);
         }
     }
+
 }
