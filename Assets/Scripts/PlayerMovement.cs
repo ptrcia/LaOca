@@ -10,14 +10,11 @@ public class PlayerMovement : MonoBehaviour
     GameManagerUI gameManagerUI;
     CellContainer cellContainer;
 
-    //[SerializeField] GameObject playerButton;
-
     public int currentCell;
     public int noPlayableTurns = 0 ;
     public bool movementCompleted = true;
     public int diceValue = 0;
     public string playerID = "sinID";
-
 
     private void Awake()
     {
@@ -30,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
     }
     void Start()
     {
-        //playerButton = GameObject.FindGameObjectWithTag("PlayerButton");
         Debug.Log("Casilla Actual: " + currentCell);
         gameManagerUI.diceImage.localScale = Vector3.zero;
     }
@@ -79,24 +75,24 @@ public class PlayerMovement : MonoBehaviour
         {
             yield return null;
         }
-        Debug.Log("CurrentCell: " + currentCell);
+        //Debug.Log("CurrentCell: " + currentCell);
         int diceResult = dice.RollDice();
-        
-        Debug.Log("Dado:" + diceResult);
+
+        Debug.Log("Dice Result:" + diceResult);
         for(int i = 0; i < diceResult; i++)
         {
             currentCell++;
             //corrutina
             //StartMovementAnimation(); 
-            Debug.Log("Cual es la curretn cell dentro del FOR: "+currentCell);
+            Debug.Log("From cell tot cell: "+currentCell);
         }
           
         gameManagerUI.AnimatingDiceImage();
         transform.position = CellManager.instance.cells[currentCell].position; //ATENCION
-        Debug.Log("CurrentCell tras movimiento-> " + currentCell);
-        Debug.Log("not playable turns befor checking "+noPlayableTurns);
+        //Debug.Log("CurrentCell AFTER chhecking-> " + currentCell);
+        Debug.Log("not playable turns BEFORE checking "+noPlayableTurns);
         gameRules.CheckSpecialCell(this, this.gameObject);
-        Debug.Log("not playable turns after checking " + noPlayableTurns);
+        Debug.Log("not playable turns AFTER checking " + noPlayableTurns);
         movementCompleted = true;
         dice.diceRolled = false; 
     }
@@ -129,16 +125,17 @@ public class PlayerMovement : MonoBehaviour
 
     public void CellArragement(int playersCounter, List<GameObject>players)
     {
+        //Debug.Log("VARIABLES CellArrangement \n - playersCounter: " + playersCounter.ToString() + " |- players: " + listaStringPorfi(players));
         if (playersCounter == 2)
         {
-            Debug.Log("Hay 2 players aqui");
+            Debug.Log("2 players here");
 
-            //abajo
+            //down
             players[0].transform.position = new Vector3(
                 CellManager.instance.cells[currentCell].position.x,
                 CellManager.instance.cells[currentCell].position.y,
                 CellManager.instance.cells[currentCell].position.z + 0.2f);
-            //arriba
+            //up
             players[1].transform.position = new Vector3(
                 CellManager.instance.cells[currentCell].position.x,
                 CellManager.instance.cells[currentCell].position.y,
@@ -147,18 +144,18 @@ public class PlayerMovement : MonoBehaviour
         }
         else if(playersCounter == 3 )
         {
-            Debug.Log("Hay 3 players aqui");
-            //abajo
+            Debug.Log("3 players here");
+            //down
             players[0].transform.position = new Vector3(
                 CellManager.instance.cells[currentCell].position.x, 
                 CellManager.instance.cells[currentCell].position.y, 
                 CellManager.instance.cells[currentCell].position.z - 0.2f);
-            //arriba derehca
+            //up right
             players[1].transform.position = new Vector3(
                 CellManager.instance.cells[currentCell].position.x - 0.17f,
                 CellManager.instance.cells[currentCell].position.y,
                 CellManager.instance.cells[currentCell].position.z + 0.2f);
-            //arriba izquierda
+            //up left
             players[2].transform.position = new Vector3(              
                 CellManager.instance.cells[currentCell].position.x + 0.17f,
                 CellManager.instance.cells[currentCell].position.y,
@@ -166,23 +163,23 @@ public class PlayerMovement : MonoBehaviour
         }
         else if(playersCounter == 4 )
         {
-            Debug.Log("Hay 4 players aqui");
-            //abajo derecha
+            Debug.Log("4 players here");
+            //down right
             players[0].transform.position = new Vector3(
                 CellManager.instance.cells[currentCell].position.x + 0.17f, 
                 CellManager.instance.cells[currentCell].position.y,
                 CellManager.instance.cells[currentCell].position.z - 0.2f);
-            //arriba derecha
+            //up right
             players[1].transform.position = new Vector3(
                 CellManager.instance.cells[currentCell].position.x - 0.17f,
                 CellManager.instance.cells[currentCell].position.y,
                 CellManager.instance.cells[currentCell].position.z + 0.2f);
-            //arriba izquierda
+            //up left
             players[2].transform.position = new Vector3(
                 CellManager.instance.cells[currentCell].position.x + 0.17f,
                 CellManager.instance.cells[currentCell].position.y,
                 CellManager.instance.cells[currentCell].position.z + 0.2f);
-            //abajo izquierda
+            //down left
             players[3].transform.position = new Vector3(
                 CellManager.instance.cells[currentCell].position.x - 0.17f,
                 CellManager.instance.cells[currentCell].position.y,
@@ -190,21 +187,12 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Debug.Log("Al centro");
+            Debug.Log("Center");
             players[0].transform.position = new Vector3(
                 CellManager.instance.cells[currentCell].position.x,
                 CellManager.instance.cells[currentCell].position.y,
                 CellManager.instance.cells[currentCell].position.z);
         }
-
-        /*
-         ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
-Parameter name: index
-System.Collections.Generic.List`1[T].get_Item (System.Int32 index) (at <787acc3c9a4c471ba7d971300105af24>:0)
-PlayerMovement.CellArragement (System.Int32 playersCounter, System.Collections.Generic.List`1[T] players) (at Assets/Scripts/PlayerMovement.cs:186)
-CellContainer.OnCollisionExit (UnityEngine.Collision collision) (at Assets/Scripts/CellContainer.cs:38)
-UnityEngine.Physics:OnSceneContact(PhysicsScene, IntPtr, Int32)
-*/
     }
 
     #endregion
@@ -233,5 +221,18 @@ UnityEngine.Physics:OnSceneContact(PhysicsScene, IntPtr, Int32)
                 .WaitForCompletion();
     }
     #endregion
+
+
+
+    string PlayerStringList(List<GameObject> players)  // Method to print the list of players id
+    {
+        string StringsIdsPlayers = "";
+        foreach (GameObject player in players)
+        {
+            StringsIdsPlayers += player.GetComponent<PlayerMovement>().playerID;
+        }
+
+        return StringsIdsPlayers;
+    }
 }
 

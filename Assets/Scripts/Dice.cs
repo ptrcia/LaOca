@@ -6,7 +6,6 @@ using UnityEngine;
 public class Dice : MonoBehaviour
 {
     #region
-    //dado numero
     [SerializeField] TextMeshProUGUI diceText;
 
     int randomNumber;
@@ -16,7 +15,7 @@ public class Dice : MonoBehaviour
     public int RollDice()
     {
         randomNumber = Random.Range(1, 6);
-        //randomNumber = 3;
+        //randomNumber = 30;
         return randomNumber;
     }
     private void OnMouseDown()

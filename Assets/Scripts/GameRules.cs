@@ -7,17 +7,17 @@ public class GameRules : MonoBehaviour
 {
     GameManager gameManager;
     TurnManager turnManager;
-    CellContainer cellContainer;
 
     int firstBridge = 5;
     int secondBridge = 11;
 
     int firstDice = 25;
     int secondDice = 51;
-
     int finalCell = 62;
 
-    int lastCountWell = 0;
+    [Header("Well Rule")]
+    PlayerMovement playerInWell = null;
+    int playerInWellRemainingTurns = 0;
 
     private void CheckGameObjects()
     {
@@ -30,7 +30,7 @@ public class GameRules : MonoBehaviour
 
     public void CheckSpecialCell(PlayerMovement _playerMovement, GameObject player)
     {
-        Debug.Log("CuRRENT CELL PLAYER   " + _playerMovement.currentCell);
+        Debug.Log("CURRENT CELL PLAYER   " + _playerMovement.currentCell);
 
         CheckGameObjects();
 
@@ -40,35 +40,35 @@ public class GameRules : MonoBehaviour
             case 4 or 8 or 13 or 17 or 22 or 26 or 31 or 35 or
                40 or 44 or 49 or 53 or 58:
                 Debug.Log("Oca");
-                Oca();
+                Goose();
                 break;
             case 5 or 11:
                 Debug.Log("Puente");
-                Puente();
+                Bridge();
                 break;
             case 18:
                 Debug.Log("Posada");
-                Posada();
+                Inn();
                 break;
             case 30:
                 Debug.Log("Pozo");
-                //Pozo();
+                Well();
                 break;
             case 41:
                 Debug.Log("Laberinto");
-                Laberinto();
+                Labyrinth();
                 break;
             case 25 or 52:
                 Debug.Log("Dados");
-                Dados();
+                Dices();
                 break;
             case 55:
                 Debug.Log("Carcel");
-                Cárcel();
+                Jail();
                 break;
             case 57:
                 Debug.Log("Calavera");
-                Calavera();
+                Death();
                 break;
             case 62:
                 Debug.Log("Final");
@@ -76,11 +76,11 @@ public class GameRules : MonoBehaviour
                 break;
             case > 62:
                 Debug.Log("Jardín");
-                Jardin();
+                Garden();
                 break;
             default: break;
         }
-        void Oca()
+        void Goose()
         {
             Dictionary<int, int> cellOcaTransitions = new Dictionary<int, int>()
             {
@@ -109,7 +109,7 @@ public class GameRules : MonoBehaviour
                 gameManager.Win();
             }
         }
-        void Puente()
+        void Bridge()
         {
             if (_playerMovement.currentCell == firstBridge)
             {
@@ -125,33 +125,39 @@ public class GameRules : MonoBehaviour
                 turnManager.nextTurnPlayer = false;
             }
         }
-        void Posada()
+        void Inn()
         {
             _playerMovement.noPlayableTurns++;
         }
-        void Pozo()
+        void Well()
         {
-            //aqui quiero coger la referencia de la celda con la que estoy colisionando
-            //while(_playerMovement?)
-            while(cellContainer.playersRegistry.Count <= lastCountWell)
-            {
-                _playerMovement.noPlayableTurns++;
+            // Sum up 3 no playable turns
+            _playerMovement.noPlayableTurns = _playerMovement.noPlayableTurns + 3;
+            playerInWellRemainingTurns = 3;
 
+            // Check if there is anyone in the Well
+            if (playerInWell != null)
+            {
+                // Set free whoever was in the well
+                playerInWell.noPlayableTurns = 0;
+                Debug.Log("EL PLAYER " + playerInWell.playerID + " ESTA LIBRE DEL POZO GRACIAS A " + _playerMovement.playerID);
             }
-                Debug.Log("La lista ha aumentado");
-                lastCountWell = cellContainer.playersRegistry.Count;
+
+            playerInWell = _playerMovement;
+            Debug.Log("EL PLAYER " + playerInWell.playerID + " QUEDA ATASCADO EN EL POZO DURANTE " + _playerMovement.noPlayableTurns + " TURNOS");
+            
         }
-        void Laberinto()
+        void Labyrinth()
         {
             _playerMovement.currentCell = 30;
             CellManager.instance.transform.position = CellManager.instance.cells[_playerMovement.currentCell].position;
 
         }
-        void Cárcel()
+        void Jail()
         {
             _playerMovement.noPlayableTurns = _playerMovement.noPlayableTurns + 2;
         }
-        void Dados()
+        void Dices()
         {
             if (_playerMovement.currentCell == firstDice)
             {
@@ -167,7 +173,7 @@ public class GameRules : MonoBehaviour
             }
             turnManager.nextTurnPlayer = false;
         }
-        void Calavera()
+        void Death()
         {
             _playerMovement.currentCell = 1;
         }
@@ -175,9 +181,9 @@ public class GameRules : MonoBehaviour
         {
             gameManager.Win();
         }
-        void Jardin()
+        void Garden()
         {
-            //no funciona
+            //it does not work
             int difference = 0;
             Debug.Log("El jugador se mueve a la casilla " + _playerMovement.currentCell);
 
@@ -194,5 +200,27 @@ public class GameRules : MonoBehaviour
             CheckSpecialCell(_playerMovement, CellManager.instance.gameObject);
         }
     }
-
+    public void CheckWhosTurn(PlayerMovement player)
+    {
+        // Check if the actual turn is from the player in the well
+        //Debug.Log(">>>>>>> TURN OF  " + player.playerID);
+        if(playerInWell != null)
+        {
+            //Debug.Log("player.playerID: " + player.playerID + "playerInWell.playerID: " + playerInWell.playerID);
+            if (player.playerID == playerInWell.playerID)
+            {
+                //Debug.Log("PLAYER IN WELL " + player.playerID + " HAS " + playerInWellRemainingTurns + "TURNS LEFT IN THE WELL");
+                if (playerInWellRemainingTurns > 0)
+                {
+                    playerInWellRemainingTurns--;
+                }
+                else
+                {
+                    //Debug.Log("PLAYER IN WELL " + player.playerID + " DOES NOT HAVE TURNLS LEFT IN THE WELL, TAKE IT OUT");
+                    playerInWell = null;
+                }
+            }
+        }
+        
+    }
 }
