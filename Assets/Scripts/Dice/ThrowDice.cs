@@ -1,7 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class ThrowDice : MonoBehaviour
 {
@@ -10,8 +9,6 @@ public class ThrowDice : MonoBehaviour
     bool hasRolled = false;
     DiceRaycast[] diceFaces;
 
-    [SerializeField]
-    int force;
     [SerializeField]
     Vector3 vectorTorque;
 
@@ -26,7 +23,9 @@ public class ThrowDice : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (hasRolled && rigidbody.velocity.magnitude == 0)
+        if (rigidbody.velocity.magnitude != 0) {
+            hasRolled = true;
+        } else if (hasRolled && rigidbody.velocity.magnitude <0.5)
         {
             foreach (DiceRaycast face in diceFaces)
             {
@@ -41,25 +40,82 @@ public class ThrowDice : MonoBehaviour
     {
         if (canRoll)
         {
-            hasRolled = true;
-            rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
+            int resultRandomForce = RandomForce();
+            int resultRandomNumberofAxis = RandomNumberOfAxis();
+            int x, y,z;
+            x = RandomVector();
+            y = RandomVector();
+            z = RandomVector();
 
-            //rigidbody.AddTorque(new Vector3(Random.Range(0, 1), Random.Range(0, 1), Random.Range(0, 1)) * force, ForceMode.Impulse);
-            int randomnumber;
-            randomnumber = Random.Range(1, 3);
-            if (randomnumber == 1)
+            rigidbody.AddForce(Vector3.up * resultRandomForce, ForceMode.Impulse);
+
+            //Debug.Log("Numero random de chances: "+resultRandomNumberofAxis);
+            if (resultRandomNumberofAxis >= 1 && resultRandomNumberofAxis <= 5) //0.5% chances
             {
-                vectorTorque = new Vector3(1, 0, 0);
-            }if (randomnumber == 2)
-            {
-                vectorTorque = new Vector3(0, 1, 0);
-            }if(randomnumber == 3)
-            {
-                vectorTorque = new Vector3(0, 0, 1);
+                int resultValue = Random1Axis();
+                if (resultValue == 1)
+                {
+                    vectorTorque = new Vector3(x, 0, 0);
+                }
+                else if (resultValue == 2)
+                {
+                    vectorTorque = new Vector3(0, y, 0);
+                }
+                else if (resultValue == 3)
+                {
+                    vectorTorque = new Vector3(0, 0, z);
+                }
             }
-            Debug.Log(randomnumber);
-
-            rigidbody.AddTorque(vectorTorque * force, ForceMode.Impulse);
+            else if (resultRandomNumberofAxis >= 6 && resultRandomNumberofAxis <= 100) //10% chances 
+            {
+                int resultValue = Random1Axis();
+                if (resultValue == 1)
+                {
+                    vectorTorque = new Vector3(x, 0, z);
+                }
+                else if (resultValue == 2)
+                {
+                    vectorTorque = new Vector3(x, y, 0);
+                }
+                else if (resultValue == 3)
+                {
+                    vectorTorque = new Vector3(0, y, z);
+                }
+            }
+            else if (resultRandomNumberofAxis >= 100 && resultRandomNumberofAxis <= 1000) //90% chances 
+            {
+                vectorTorque = new Vector3(x, y, z);
+            }
+   
+            rigidbody.AddTorque(vectorTorque * resultRandomForce, ForceMode.Impulse);
+            //Debug.Log(vectorTorque);
         }
     }
+
+    #region Rabndom Methods
+    int Random1Axis()
+    {
+        int randomnumber;
+        randomnumber = Random.Range(1, 4);
+        return randomnumber;
+    }
+    int RandomNumberOfAxis()
+    {
+        int randomnumber;
+        randomnumber = Random.Range(1, 1001);
+        return randomnumber;
+    }
+    int RandomForce()
+    {
+        int randomnumber;
+        randomnumber = Random.Range(150, 200);
+        return randomnumber;
+    }
+    int RandomVector()
+    {
+        int randomnumber;
+        randomnumber = Random.Range(-1, 2);
+        return randomnumber;
+    }
+    #endregion
 }

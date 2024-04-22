@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     Dice dice;
+    ThrowDice throwDice;
+    DiceRaycast diceRaycast;
     GameRules gameRules;
     GameManagerUI gameManagerUI;
     CellContainer cellContainer;
@@ -18,12 +20,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        gameRules = GameObject.FindGameObjectWithTag("GameRules").
-            GetComponent<GameRules>();
-        dice = GameObject.FindGameObjectWithTag("Dice").
-            GetComponent<Dice>();
-        gameManagerUI = GameObject.FindGameObjectWithTag("GameManagerUI")
-            .GetComponent<GameManagerUI>();
+        gameRules = GameObject.FindGameObjectWithTag("GameRules").GetComponent<GameRules>();
+        dice = GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>();
+        throwDice = GameObject.FindGameObjectWithTag("Dice").GetComponent<ThrowDice>();
+        diceRaycast = GameObject.FindGameObjectsWithTag("Dice").GetComponent<DiceRaycast>();
+        gameManagerUI = GameObject.FindGameObjectWithTag("GameManagerUI").GetComponent<GameManagerUI>();
     }
     void Start()
     {
@@ -71,12 +72,24 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator WaitForDiceRolled()
     {
-        while (!dice.diceRolled)
+        /*while (!dice.diceRolled)
         {
             yield return null;
+        }*/
+        while (!throwDice.hasRolled)
+        {
+            yield return null;  
         }
         //Debug.Log("CurrentCell: " + currentCell);
-        int diceResult = dice.RollDice();
+
+        //ESTO ES LO DEL DADO ANTERIOR//int diceResult = dice.RollDice();
+        int diceResult = 0;
+        do {
+            diceResult = throwDice.getDiceResult();
+        } while (diceResult == 0);
+
+        //int diceResult = DiceRaycast.getDiceResult();
+
 
         Debug.Log("Dice Result:" + diceResult);
         for(int i = 0; i < diceResult; i++)
@@ -87,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("From cell tot cell: "+currentCell);
         }
           
-        gameManagerUI.AnimatingDiceImage();
+        //gameManagerUI.AnimatingDiceImage(); useless
         transform.position = CellManager.instance.cells[currentCell].position; //ATENCION
         //Debug.Log("CurrentCell AFTER chhecking-> " + currentCell);
         Debug.Log("not playable turns BEFORE checking "+noPlayableTurns);
@@ -221,8 +234,6 @@ public class PlayerMovement : MonoBehaviour
                 .WaitForCompletion();
     }
     #endregion
-
-
 
     string PlayerStringList(List<GameObject> players)  // Method to print the list of players id
     {

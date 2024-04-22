@@ -45,7 +45,7 @@ public class GameManagerUI : MonoBehaviour
         screenSizeZero = new Vector2(0, 0);
     }
 
-    public void AnimatingDiceImage()
+    public void AnimatingDiceImage() //useless
     {
         diceImage.DOScale(new Vector3(0.5f, 0.5f, diceImage.localScale.z), 1f)
             .SetEase(Ease.OutQuad)

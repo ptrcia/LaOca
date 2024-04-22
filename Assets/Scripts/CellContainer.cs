@@ -25,7 +25,7 @@ public class CellContainer : MonoBehaviour
         }
         else if(collision.gameObject != null)
         {
-            Debug.Log("Check this in the future");
+            //Debug.Log("Check this in the future");
         }
     }
 

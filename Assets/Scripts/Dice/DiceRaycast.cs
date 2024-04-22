@@ -9,7 +9,8 @@ public class DiceRaycast : MonoBehaviour
     RaycastHit hit;
     [SerializeField]
     LayerMask layer;
-    int diceResult;
+    public int diceResult;
+    public bool diceResultUpdated = false;
 
     private void Update()
     {
@@ -23,8 +24,20 @@ public class DiceRaycast : MonoBehaviour
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layer))
         {
             diceResult = Int32.Parse(gameObject.name);
+            diceResultUpdated = true;
             Debug.Log(diceResult);
         }
+    }
 
+    public int getDiceResult()
+    {
+        if (diceResultUpdated)
+        {
+            diceResultUpdated = false;
+            return diceResult;
+        }
+        else {
+            return 0;
+        }
     }
 }
