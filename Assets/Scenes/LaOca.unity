@@ -8983,6 +8983,30 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 972176677137506767, guid: 7c801d7805b082c4bb34b7db740a2079, type: 3}
+      propertyPath: m_TagString
+      value: PhysicsDice
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940173366186140977, guid: 7c801d7805b082c4bb34b7db740a2079, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940173366186140977, guid: 7c801d7805b082c4bb34b7db740a2079, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940173366186140977, guid: 7c801d7805b082c4bb34b7db740a2079, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940173366186140977, guid: 7c801d7805b082c4bb34b7db740a2079, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940173366186140977, guid: 7c801d7805b082c4bb34b7db740a2079, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 180
+      objectReference: {fileID: 0}
     - target: {fileID: 3970965491078301746, guid: 7c801d7805b082c4bb34b7db740a2079, type: 3}
       propertyPath: m_Layer
       value: 7

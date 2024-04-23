@@ -102,11 +102,9 @@ public class TurnManager : MonoBehaviour
         while (currentPlayerIndex < players.Count)
         {
             nextTurnPlayer = true;
-
             currentPlayer = players[currentPlayerIndex];
-            //get button by ID
+            //give data
             currentButton = getButtonById(currentPlayer.GetComponent<PlayerMovement>().playerID); 
-
             currentButtonRectTransform = currentButton.GetComponent<RectTransform>();
 
             //Debug.Log("Current Player Index: " + currentPlayerIndex);
@@ -117,11 +115,15 @@ public class TurnManager : MonoBehaviour
             Debug.Log("Turno del -> " + currentPlayer.GetComponent<PlayerMovement>().playerID);
             //Debug.Log("Con la etiqueta ->" + currentButton.name);
 
+            //Animate button
             gameManagerUI.CurrentTurnAnimation(currentButtonRectTransform);
 
             Debug.Log("no playable turns : " + currentPlayer.GetComponent<PlayerMovement>().noPlayableTurns);
 
+            //make the Gane Rules know whos turn is
             gameRules.CheckWhosTurn(currentPlayer.GetComponent<PlayerMovement>());
+
+            //player can NOT play his turn
             if (currentPlayer.GetComponent<PlayerMovement>().noPlayableTurns != 0)
             {
                 Debug.Log("Skip Turn");
@@ -136,6 +138,7 @@ public class TurnManager : MonoBehaviour
                     Debug.Log("-----New Round-----");
                 }
             }
+            //player can play his turn
             else
             {
                 Debug.Log("NO Skip Turn");
@@ -232,16 +235,16 @@ public class TurnManager : MonoBehaviour
 
     IEnumerator WaitForPlayerOrder(GameObject player, List<int> diceValues)
     {
-        // Esperar hasta que el jugador haya completado su lanzamiento de dado
+        // wait till player has rolled the dice
         while (!player.GetComponent<PlayerMovement>().HasCompletedMovement())
         {
             yield return null;
         }
 
-        // Agregar el valor del dado del jugador a la lista
+        // add the value to the list
         diceValues.Add(player.GetComponent<PlayerMovement>().diceValue);
 
-        // Si todos los jugadores han lanzado los dados, ordenarlos y mostrar el resultado
+        // It everyone thowed, sort the numbers
         if (diceValues.Count == players.Count)
         {
             SortPlayersByDiceValues(diceValues);

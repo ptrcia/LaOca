@@ -9,35 +9,37 @@ public class DiceRaycast : MonoBehaviour
     RaycastHit hit;
     [SerializeField]
     LayerMask layer;
+    [HideInInspector]
     public int diceResult;
-    public bool diceResultUpdated = false;
 
     private void Update()
     {
         Debug.DrawRay(ray.origin, ray.direction * 100f, Color.green);
     }
 
-    public void CheckForColliders()
+    public int CheckForColliders()
     {
         ray = new Ray(transform.position, transform.up);
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layer))
         {
-            diceResult = Int32.Parse(gameObject.name);
-            diceResultUpdated = true;
-            Debug.Log(diceResult);
-        }
-    }
+            //diceResult = Int32.Parse(gameObject.name);
+            diceResult = Int32.Parse(gameObject.tag.ToString());
+            Debug.Log("DiceRaycast ->" + diceResult);
 
-    public int getDiceResult()
-    {
-        if (diceResultUpdated)
-        {
-            diceResultUpdated = false;
             return diceResult;
-        }
-        else {
+        } else { 
             return 0;
         }
     }
+    /*public void CheckForColliders()
+    {
+        ray = new Ray(transform.position, transform.up);
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layer))
+        {
+            diceResult = Int32.Parse(gameObject.tag.ToString());
+            Debug.Log(diceResult);
+        }
+    }*/
 }

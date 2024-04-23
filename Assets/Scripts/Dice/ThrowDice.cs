@@ -5,12 +5,15 @@ using UnityEngine;
 public class ThrowDice : MonoBehaviour
 {
     new Rigidbody rigidbody;
-    bool canRoll = true;
-    bool hasRolled = false;
+    public bool canRoll = true;
+    public bool hasRolled = false;
     DiceRaycast[] diceFaces;
 
     [SerializeField]
     Vector3 vectorTorque;
+
+    bool diceResultUpdated = false;
+    int diceResult = 0;
 
     private void Awake()
     {
@@ -27,15 +30,20 @@ public class ThrowDice : MonoBehaviour
             hasRolled = true;
         } else if (hasRolled && rigidbody.velocity.magnitude <0.5)
         {
+            int result = 0;
             foreach (DiceRaycast face in diceFaces)
             {
-                face.CheckForColliders();
+                //face.CheckForColliders();
+                result = face.CheckForColliders();
             }
             hasRolled = false;
             canRoll = true;
         }
+
+        //Debug.Log("Has rolled? -> " + hasRolled);
     }
 
+    #region Physics: Force && Torque
     private void OnMouseDown()
     {
         if (canRoll)
@@ -91,8 +99,22 @@ public class ThrowDice : MonoBehaviour
             //Debug.Log(vectorTorque);
         }
     }
+    #endregion
 
-    #region Rabndom Methods
+    public int getDiceResult()
+    {
+        if (diceResultUpdated)
+        {
+            diceResultUpdated = false;
+            return diceResult;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    #region Random Methods
     int Random1Axis()
     {
         int randomnumber;

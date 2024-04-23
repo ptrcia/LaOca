@@ -22,93 +22,80 @@ public class PlayerMovement : MonoBehaviour
     {
         gameRules = GameObject.FindGameObjectWithTag("GameRules").GetComponent<GameRules>();
         dice = GameObject.FindGameObjectWithTag("Dice").GetComponent<Dice>();
-        throwDice = GameObject.FindGameObjectWithTag("Dice").GetComponent<ThrowDice>();
-        diceRaycast = GameObject.FindGameObjectsWithTag("Dice").GetComponent<DiceRaycast>();
+        throwDice = GameObject.FindGameObjectWithTag("PhysicsDice").GetComponent<ThrowDice>();
+        //diceRaycast = GameObject.FindGameObjectsWithTag("Dice").GetComponent<DiceRaycast>();
         gameManagerUI = GameObject.FindGameObjectWithTag("GameManagerUI").GetComponent<GameManagerUI>();
     }
     void Start()
     {
         Debug.Log("Casilla Actual: " + currentCell);
         gameManagerUI.diceImage.localScale = Vector3.zero;
+
+    }
+    private void Update()
+    {
+        //Debug.Log("Has rolled? -> " + throwDice.hasRolled);
     }
 
-    /*private void OnCollisionEnter(Collision collision)
-    {
-        //esto lo quiero hacer en el pozo, no aquí
-        cellContainer = collision.gameObject.GetComponent<CellContainer>();
-        int lastCountWell = 0;
-        //esto tampoco debería valer porque al llegar a la casilla no tiene porque estar en 0
-        //lo actualizo en el update??
-        if (collision.gameObject.CompareTag("Cell") && currentCell == 30)
-        {
-            while(cellContainer.playersRegistry.Count != lastCountWell)
-            {
-                //NO TENGO NI IDEA AYUDANME
-                noPlayableTurns++;
-            }
-            Debug.Log("La lista ha aumentado");
-            lastCountWell = cellContainer.playersRegistry.Count;
-            //esto no deberia funcionar, porque cada celda tiene una contabilidad distinta
-        }
-    }*/
-
-    void Move()
-        {
-            diceValue = dice.RollDice();
-            currentCell = currentCell + diceValue;
-            transform.position = CellManager.instance.cells[currentCell].position;
-            Debug.Log("CurrentCell-> " + currentCell);
-            //gameRules.CheckSpecialCell(this);
-            movementCompleted = true;
-            Debug.Log("movementCompleted set to true.");
-        }
-
     #region Move
+
     public void MoveIfDiceRolled()
     {
         movementCompleted = false;
         StartCoroutine(WaitForDiceRolled());
     }
-
     IEnumerator WaitForDiceRolled()
     {
-        /*while (!dice.diceRolled)
+        while (!dice.diceRolled)
         {
             yield return null;
-        }*/
-        while (!throwDice.hasRolled)
-        {
-            yield return null;  
         }
         //Debug.Log("CurrentCell: " + currentCell);
+        int diceResult = dice.RollDice();
 
-        //ESTO ES LO DEL DADO ANTERIOR//int diceResult = dice.RollDice();
-        int diceResult = 0;
+
+        Debug.Log("Has rolled? -> " + throwDice.hasRolled); //funciona
+
+
+        //THIS DOES NOT WORK
+        //Waits fot the dice to be rolled
+        /*while (!throwDice.hasRolled)
+        {
+            //yield return null;
+            Debug.Log(".");
+        
+        int diceResult2 = 0;
+        
+        //When rolled, we saved only the number of the face upwards
         do {
-            diceResult = throwDice.getDiceResult();
-        } while (diceResult == 0);
+            diceResult2 = throwDice.getDiceResult();
+        } while (diceResult2 == 0);
 
-        //int diceResult = DiceRaycast.getDiceResult();
+        
+        Debug.Log("Dice Result2:" + diceResult2);
 
+        }*/
 
         Debug.Log("Dice Result:" + diceResult);
-        for(int i = 0; i < diceResult; i++)
+        for (int i = 0; i < diceResult; i++)
         {
             currentCell++;
+            transform.position = CellManager.instance.cells[currentCell].position; //quizas esto es algo?
             //corrutina
             //StartMovementAnimation(); 
-            Debug.Log("From cell tot cell: "+currentCell);
+            Debug.Log("From cell to cell: " + currentCell);
         }
-          
-        //gameManagerUI.AnimatingDiceImage(); useless
+
+        //gameManagerUI.AnimatingDiceImage();
         transform.position = CellManager.instance.cells[currentCell].position; //ATENCION
         //Debug.Log("CurrentCell AFTER chhecking-> " + currentCell);
-        Debug.Log("not playable turns BEFORE checking "+noPlayableTurns);
+        Debug.Log("not playable turns BEFORE checking " + noPlayableTurns);
         gameRules.CheckSpecialCell(this, this.gameObject);
         Debug.Log("not playable turns AFTER checking " + noPlayableTurns);
         movementCompleted = true;
-        dice.diceRolled = false; 
+        dice.diceRolled = false;
     }
+
     public bool HasCompletedMovement()
     {
         return movementCompleted;
